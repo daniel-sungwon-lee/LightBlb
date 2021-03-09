@@ -6,9 +6,6 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const port = process.env.PORT || 3001;
 
-const path = require('path');
-const express = require('express');
-
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
