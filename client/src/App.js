@@ -1,16 +1,45 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Spinner from './components/spinner';
 import Auth from './auth';
+import decodeToken from './decode-token';
+import Home from './home';
 
 export default function App() {
   const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if(!user) {
-      return <Redirect to="/auth" />
+    const token = window.localStorage.getItem("userToken")
+    const user = token
+      ? decodeToken(token)
+      : null;
+
+    setUser(user)
+    setLoading(false)
+
+  }, [])
+
+  const handleLogin = (result) => {
+    setLoading(true)
+    const { user, token } = result
+
+    setUser(user)
+    window.localStorage.setItem("userToken", token)
+
+    if (window.localStorage.getItem("userToken")) {
+      window.location.pathname="/"
     }
-  }, [user])
+  }
+
+  if (loading) {
+    return <Spinner />
+  }
+
+  if (!user) {
+    return <Auth handleLogin={handleLogin} />
+  }
 
   return (
     <div className="App">
@@ -19,7 +48,11 @@ export default function App() {
         <Switch>
 
           <Route exact path="/auth">
-            <Auth />
+            <Auth handleLogin={handleLogin} />
+          </Route>
+
+          <Route exact path="/">
+            <Home />
           </Route>
 
         </Switch>
