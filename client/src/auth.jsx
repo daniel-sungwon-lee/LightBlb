@@ -72,8 +72,30 @@ export default function Auth(props) {
       .catch(() => window.location.reload())
   }
 
-  const handleLogin = () => {
+  const handleLogin = (event) => {
+    setLoading(true)
+    event.preventDefault()
 
+    const reqBody = { email, password }
+
+    fetch('/api/login', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(reqBody)
+    })
+      .then(res => res.json())
+      .then(result => {
+        if(result.error) {
+          setError(true)
+          setErrText(result.error)
+          setLoading(false)
+        }
+
+        if(result.token && result.user) {
+          props.handleLogin(result)
+        }
+      })
+      .catch(() => window.location.reload())
   }
 
   if(loading) {

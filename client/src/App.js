@@ -12,6 +12,17 @@ export default function App() {
     }
   }, [user])
 
+  const handleLogin = (result) => {
+    const { user, token } = result
+
+    setUser(user)
+    window.localStorage.setItem("userToken", token)
+
+    if(window.localStorage.getItem("userToken")) {
+      return <Redirect to="/" />
+    }
+  }
+
   return (
     <div className="App">
 
@@ -19,7 +30,11 @@ export default function App() {
         <Switch>
 
           <Route exact path="/auth">
-            <Auth />
+            <Auth handleLogin={handleLogin} />
+          </Route>
+
+          <Route exact path="/">
+
           </Route>
 
         </Switch>
