@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { IconButton, TextField, Button, CircularProgress } from '@material-ui/core';
-import { MeetingRoomRounded, PersonAddRounded, ArrowBackRounded } from '@material-ui/icons';
+import { MeetingRoomRounded, PersonAddRounded, ArrowBackRounded,
+         VpnKeyRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -11,7 +12,7 @@ const useStyles = makeStyles({
   button: {
     borderRadius: "1rem",
     padding: "0.5rem 2rem",
-    fontSize: "23px",
+    fontSize: "18px",
     marginTop: "2rem"
   }
 })
@@ -98,6 +99,11 @@ export default function Auth(props) {
       .catch(() => window.location.reload())
   }
 
+  const handleAutofill = () => {
+    setEmail("demo@User")
+    setPassword("somethingHard!")
+  }
+
   if(loading) {
     return (
       <div className="spinner">
@@ -133,6 +139,10 @@ export default function Auth(props) {
             onClick={handleSwitch}>
             Sign Up
           </Button>
+          <Button className={classes.button} color="default" startIcon={<VpnKeyRounded />}
+           onClick={handleAutofill}>
+            Demo
+          </Button>
         </div>
       )
 
@@ -157,7 +167,7 @@ export default function Auth(props) {
             </IconButton>
           </form>
           <IconButton onClick={handleSwitch} style={{ marginTop: "2rem" }}>
-            <ArrowBackRounded fontSize="large" />
+            <ArrowBackRounded fontSize="large" style={{color: "black"}} />
           </IconButton>
         </div>
       )

@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Auth from './auth';
 import decodeToken from './decode-token';
 import Home from './home';
@@ -25,16 +25,12 @@ export default function App() {
     window.localStorage.setItem("userToken", token)
 
     if (window.localStorage.getItem("userToken")) {
-      <Router>
-        <Redirect to="/" />
-      </Router>
+      window.location.pathname="/"
     }
   }
 
   if (!user) {
-    <Router>
-      <Redirect to="/auth" />
-    </Router>
+    return <Auth handleLogin={handleLogin} />
   }
 
   return (
