@@ -3,7 +3,7 @@ import { IconButton, TextField, Button } from '@material-ui/core';
 import { MeetingRoomRounded, PersonAddRounded, ArrowBackRounded,
          VpnKeyRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
-import Spinner from './spinner';
+import Spinner from './components/spinner';
 
 const useStyles = makeStyles({
   icon: {

@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Spinner from './spinner';
+import Spinner from './components/spinner';
 import Auth from './auth';
 import decodeToken from './decode-token';
 import Home from './home';
