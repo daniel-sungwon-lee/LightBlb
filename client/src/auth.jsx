@@ -22,6 +22,8 @@ export default function Auth(props) {
   const [page, setPage] = useState("login")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState(false)
+  const [errText, setErrText] = useState('')
 
   useEffect(() => {
 
@@ -52,8 +54,22 @@ export default function Auth(props) {
     }
   }
 
-  const handleSignUp = () => {
+  const handleSignUp = (event) => {
+    setLoading(true)
+    event.preventDefault()
 
+    const reqBody = { email, password }
+
+    fetch('/api/signup', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(reqBody)
+    })
+      .then(() => {
+        setPage("login")
+        setLoading(false)
+      })
+      .catch(() => window.location.reload())
   }
 
   const handleLogin = () => {
@@ -66,6 +82,7 @@ export default function Auth(props) {
         <CircularProgress color="inherit" thickness={4} size={50} />
       </div>
     )
+
   } else {
 
     if(page === "login") {
@@ -79,10 +96,12 @@ export default function Auth(props) {
           </div>
           <form className="d-flex flex-column align-items-center mt-4" onSubmit={handleLogin}>
             <TextField id="email" label="Email" required InputLabelProps={{required: false}}
-             type="email" value={email} className="mt-4" onChange={handleChange} variant="filled" />
+             type="email" value={email} className="mt-4" onChange={handleChange} variant="filled"
+             error={error} />
 
             <TextField id="password" label="Password" required InputLabelProps={{required: false}}
-             type="password" value={password} className="mt-4" onChange={handleChange} variant="filled" />
+             type="password" value={password} className="mt-4" onChange={handleChange} variant="filled"
+             error={error} helperText={errText} />
 
             <IconButton className="mt-2" type="submit">
               <MeetingRoomRounded className={classes.icon} />

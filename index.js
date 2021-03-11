@@ -46,7 +46,7 @@ function errorMiddleware(err, req, res, next) {
 }
 
 //API endpoints
-app.post('/api/signUp', (req, res, next) => {
+app.post('/api/signup', (req, res, next) => {
   const { email, password } = req.body;
 
   argon2
