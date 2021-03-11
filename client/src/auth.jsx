@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IconButton, TextField, Button } from '@material-ui/core';
+import { IconButton, TextField, Button, Tooltip } from '@material-ui/core';
 import { MeetingRoomRounded, PersonAddRounded, ArrowBackRounded,
          VpnKeyRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,6 +15,9 @@ const useStyles = makeStyles({
     padding: "0.5rem 2rem",
     fontSize: "18px",
     marginTop: "2rem"
+  },
+  tooltip: {
+    backgroundColor: "#694D33"
   }
 })
 
@@ -130,9 +133,11 @@ export default function Auth(props) {
              type="password" value={password} className="mt-4" onChange={handleChange} variant="filled"
              error={error} helperText={errText} />
 
-            <IconButton className="mt-2" type="submit">
-              <MeetingRoomRounded className={classes.icon} />
-            </IconButton>
+            <Tooltip title="Login" classes={{tooltip: classes.tooltip}}>
+              <IconButton className="mt-2" type="submit">
+                <MeetingRoomRounded className={classes.icon} />
+              </IconButton>
+            </Tooltip>
           </form>
           <Button className={classes.button} color="default" startIcon={<PersonAddRounded />}
             onClick={handleSwitch}>
@@ -161,9 +166,11 @@ export default function Auth(props) {
             <TextField id="password" label="Password" required InputLabelProps={{ required: false }}
               type="password" value={password} className="mt-4" onChange={handleChange} variant="filled" />
 
-            <IconButton className="mt-2" type="submit">
-              <PersonAddRounded className={classes.icon} />
-            </IconButton>
+            <Tooltip title="Sign up" classes={{tooltip: classes.tooltip}}>
+              <IconButton className="mt-2" type="submit">
+                <PersonAddRounded className={classes.icon} />
+              </IconButton>
+            </Tooltip>
           </form>
           <IconButton onClick={handleSwitch} style={{ marginTop: "2rem" }}>
             <ArrowBackRounded fontSize="large" style={{color: "black"}} />
