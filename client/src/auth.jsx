@@ -45,6 +45,14 @@ export default function Auth(props) {
     }
   }
 
+  const handleSignUp = () => {
+
+  }
+
+  const handleLogin = () => {
+
+  }
+
   if(page === "login") {
     return (
       <div className="container">
@@ -54,7 +62,7 @@ export default function Auth(props) {
         <div>
           <h1 style={{marginTop: "-1.5rem"}}>LightBlb</h1>
         </div>
-        <form className="d-flex flex-column align-items-center mt-4">
+        <form className="d-flex flex-column align-items-center mt-4" onSubmit={handleLogin}>
           <TextField id="email" label="Email" required InputLabelProps={{required: false}}
            type="email" value={email} className="mt-4" onChange={handleChange} variant="filled" />
 
@@ -81,7 +89,7 @@ export default function Auth(props) {
         <div>
           <h1 style={{ marginTop: "-1.5rem" }}>LightBlb</h1>
         </div>
-        <form className="d-flex flex-column align-items-center mt-4">
+        <form className="d-flex flex-column align-items-center mt-4" onSubmit={handleSignUp}>
           <TextField id="email" label="Email" required InputLabelProps={{ required: false }}
             type="email" value={email} className="mt-4" onChange={handleChange} variant="filled" />
 

@@ -46,7 +46,26 @@ function errorMiddleware(err, req, res, next) {
 }
 
 //API endpoints
+app.post('/api/signUp', (req, res, next) => {
+  const { email, password } = req.body;
 
+  argon2
+    .hash(password)
+    .then(hashedPassword => {
+      const sql = `
+     insert into "users" ("email", "hashedPassword")
+     values ($1, $2)
+     `;
+      const params = [email, hashedPassword];
+
+      db.query(sql, params)
+        .then(result => {
+          res.status(201).json(result.rows[0]);
+        })
+        .catch(err => next(err));
+    })
+    .catch(err => next(err));
+});
 
 
 
