@@ -214,6 +214,10 @@ export default function Auth(props) {
 
 }
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />
+})
+
 function Modal() {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
@@ -223,7 +227,8 @@ function Modal() {
       <IconButton className={classes.modalButton} onClick={() => setOpen(true)}>
         <WbIncandescentRounded className={classes.modalIcon} />
       </IconButton>
-      <Dialog classes={{paper: classes.paper}} onClose={() => setOpen(false)} open={open}>
+      <Dialog classes={{paper: classes.paper}} onClose={() => setOpen(false)}
+       open={open} TransitionComponent={Transition}>
         <IconButton className={classes.close} onClick={() => setOpen(false)}>
           <CloseRounded className={classes.modalIcon} />
         </IconButton>
