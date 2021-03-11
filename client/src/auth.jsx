@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { IconButton, TextField, Button, CircularProgress } from '@material-ui/core';
+import { IconButton, TextField, Button } from '@material-ui/core';
 import { MeetingRoomRounded, PersonAddRounded, ArrowBackRounded,
          VpnKeyRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
+import Spinner from './spinner';
 
 const useStyles = makeStyles({
   icon: {
@@ -106,9 +107,7 @@ export default function Auth(props) {
 
   if(loading) {
     return (
-      <div className="spinner">
-        <CircularProgress color="inherit" thickness={4} size={50} />
-      </div>
+      <Spinner />
     )
 
   } else {

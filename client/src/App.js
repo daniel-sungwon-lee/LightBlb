@@ -1,12 +1,14 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Spinner from './spinner';
 import Auth from './auth';
 import decodeToken from './decode-token';
 import Home from './home';
 
 export default function App() {
   const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const token = window.localStorage.getItem("userToken")
@@ -15,10 +17,12 @@ export default function App() {
       : null;
 
     setUser(user)
+    setLoading(false)
 
   }, [])
 
   const handleLogin = (result) => {
+    setLoading(true)
     const { user, token } = result
 
     setUser(user)
@@ -27,6 +31,10 @@ export default function App() {
     if (window.localStorage.getItem("userToken")) {
       window.location.pathname="/"
     }
+  }
+
+  if (loading) {
+    return <Spinner />
   }
 
   if (!user) {
