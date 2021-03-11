@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IconButton, TextField, Button, Tooltip } from '@material-ui/core';
+import { IconButton, TextField, Button, Tooltip, Slide } from '@material-ui/core';
 import { MeetingRoomRounded, PersonAddRounded, ArrowBackRounded,
          VpnKeyRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
@@ -117,65 +117,69 @@ export default function Auth(props) {
 
     if(page === "login") {
       return (
-        <div className="container">
-          <div className="m-5">
-            <img src="/images/lightblb.svg" alt="LightBlb logo" width="200" />
-          </div>
-          <div>
-            <h1 style={{marginTop: "-1.5rem"}}>LightBlb</h1>
-          </div>
-          <form className="d-flex flex-column align-items-center mt-4" onSubmit={handleLogin}>
-            <TextField id="email" label="Email" required InputLabelProps={{required: false}}
-             type="email" value={email} className="mt-4" onChange={handleChange} variant="filled"
-             error={error} />
+        <Slide in direction="down" timeout={500}>
+          <div className="container">
+            <div className="m-5">
+              <img src="/images/lightblb.svg" alt="LightBlb logo" width="200" />
+            </div>
+            <div>
+              <h1 style={{marginTop: "-1.5rem"}}>LightBlb</h1>
+            </div>
+            <form className="d-flex flex-column align-items-center mt-4" onSubmit={handleLogin}>
+              <TextField id="email" label="Email" required InputLabelProps={{required: false}}
+              type="email" value={email} className="mt-4" onChange={handleChange} variant="filled"
+              error={error} />
 
-            <TextField id="password" label="Password" required InputLabelProps={{required: false}}
-             type="password" value={password} className="mt-4" onChange={handleChange} variant="filled"
-             error={error} helperText={errText} />
+              <TextField id="password" label="Password" required InputLabelProps={{required: false}}
+              type="password" value={password} className="mt-4" onChange={handleChange} variant="filled"
+              error={error} helperText={errText} />
 
-            <Tooltip title="Login" classes={{tooltip: classes.tooltip}}>
-              <IconButton className="mt-2" type="submit">
-                <MeetingRoomRounded className={classes.icon} />
-              </IconButton>
-            </Tooltip>
-          </form>
-          <Button className={classes.button} color="default" startIcon={<PersonAddRounded />}
-            onClick={handleSwitch}>
-            Sign Up
-          </Button>
-          <Button className={classes.button} color="default" startIcon={<VpnKeyRounded />}
-           onClick={handleAutofill}>
-            Demo
-          </Button>
-        </div>
+              <Tooltip title="Login" classes={{tooltip: classes.tooltip}}>
+                <IconButton className="mt-2" type="submit">
+                  <MeetingRoomRounded className={classes.icon} />
+                </IconButton>
+              </Tooltip>
+            </form>
+            <Button className={classes.button} color="default" startIcon={<PersonAddRounded />}
+              onClick={handleSwitch}>
+              Sign Up
+            </Button>
+            <Button className={classes.button} color="default" startIcon={<VpnKeyRounded />}
+            onClick={handleAutofill}>
+              Demo
+            </Button>
+          </div>
+        </Slide>
       )
 
     } else {
       return (
-        <div className="container">
-          <div className="m-5">
-            <img src="/images/lightblb.svg" alt="LightBlb logo" width="200" />
-          </div>
-          <div>
-            <h1 style={{ marginTop: "-1.5rem" }}>LightBlb</h1>
-          </div>
-          <form className="d-flex flex-column align-items-center mt-4" onSubmit={handleSignUp}>
-            <TextField id="email" label="Email" required InputLabelProps={{ required: false }}
-              type="email" value={email} className="mt-4" onChange={handleChange} variant="filled" />
+        <Slide in direction="down">
+          <div className="container">
+            <div className="m-5">
+              <img src="/images/lightblb.svg" alt="LightBlb logo" width="200" />
+            </div>
+            <div>
+              <h1 style={{ marginTop: "-1.5rem" }}>LightBlb</h1>
+            </div>
+            <form className="d-flex flex-column align-items-center mt-4" onSubmit={handleSignUp}>
+              <TextField id="email" label="Email" required InputLabelProps={{ required: false }}
+                type="email" value={email} className="mt-4" onChange={handleChange} variant="filled" />
 
-            <TextField id="password" label="Password" required InputLabelProps={{ required: false }}
-              type="password" value={password} className="mt-4" onChange={handleChange} variant="filled" />
+              <TextField id="password" label="Password" required InputLabelProps={{ required: false }}
+                type="password" value={password} className="mt-4" onChange={handleChange} variant="filled" />
 
-            <Tooltip title="Sign up" classes={{tooltip: classes.tooltip}}>
-              <IconButton className="mt-2" type="submit">
-                <PersonAddRounded className={classes.icon} />
-              </IconButton>
-            </Tooltip>
-          </form>
-          <IconButton onClick={handleSwitch} style={{ marginTop: "2rem" }}>
-            <ArrowBackRounded fontSize="large" style={{color: "black"}} />
-          </IconButton>
-        </div>
+              <Tooltip title="Sign up" classes={{tooltip: classes.tooltip}}>
+                <IconButton className="mt-2" type="submit">
+                  <PersonAddRounded className={classes.icon} />
+                </IconButton>
+              </Tooltip>
+            </form>
+            <IconButton onClick={handleSwitch} style={{ marginTop: "2rem" }}>
+              <ArrowBackRounded fontSize="large" style={{color: "black"}} />
+            </IconButton>
+          </div>
+        </Slide>
       )
     }
 
