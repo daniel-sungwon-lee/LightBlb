@@ -41,7 +41,7 @@ const useStyles = makeStyles({
     right: "0.75rem"
   },
   content: {
-    fontSize: "1.25rem"
+    fontSize: "1.5rem"
   }
 })
 
