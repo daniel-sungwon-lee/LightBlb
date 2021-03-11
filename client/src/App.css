@@ -3,6 +3,16 @@
   font-family: Gibson, sans-serif;
 }
 
+.spinner {
+  position:absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.MuiCircularProgress-svg {
+  color: #FFD321;
+}
+
 /*auth*/
 .MuiFormLabel-root.Mui-focused {
   color: #694D33 !important;
