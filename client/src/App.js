@@ -4,7 +4,9 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Spinner from './components/spinner';
 import Auth from './auth';
 import decodeToken from './decode-token';
+import Nav from './components/nav';
 import Home from './home';
+import Profile from './profile';
 
 export default function App() {
   const [user, setUser] = useState(null)
@@ -33,18 +35,32 @@ export default function App() {
     }
   }
 
+  const handleSignOut = () => {
+    window.localStorage.removeItem("userToken")
+    setUser(null)
+  }
+
   if (loading) {
     return <Spinner />
   }
 
   if (!user) {
-    return <Auth handleLogin={handleLogin} />
+    return (
+      <div className="App">
+        <Auth handleLogin={handleLogin} />
+      </div>
+    )
+  }
+
+  if (window.location.pathname === "/auth" && user) {
+    window.location.pathname = "/"
   }
 
   return (
     <div className="App">
 
       <Router>
+        <Nav handleSignOut={handleSignOut} />
         <Switch>
 
           <Route exact path="/auth">
@@ -53,6 +69,10 @@ export default function App() {
 
           <Route exact path="/">
             <Home />
+          </Route>
+
+          <Route exact path="/profile">
+            <Profile user={user} />
           </Route>
 
         </Switch>

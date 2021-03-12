@@ -13,6 +13,21 @@
   color: #FFD321;
 }
 
+.container {
+  padding-bottom: 4rem;
+}
+
+.nav-logo {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.MuiPaper-root.MuiPaper-rounded {
+  border-radius: 2rem;
+}
+
 /*auth*/
 .MuiFormLabel-root.Mui-focused {
   color: #694D33 !important;
