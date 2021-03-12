@@ -33,16 +33,16 @@ export default function Profile(props) {
 
               <ListItem>
                 <ListItemIcon>
-                  <EmailRounded className={classes.icon} />
+                  <PersonRounded className={classes.icon} />
                 </ListItemIcon>
-                <ListItemText primary="Email" secondary={email} />
+                <ListItemText primary="User Id" secondary={userId} />
               </ListItem>
 
               <ListItem>
                 <ListItemIcon>
-                  <PersonRounded className={classes.icon} />
+                  <EmailRounded className={classes.icon} />
                 </ListItemIcon>
-                <ListItemText primary="User Id" secondary={userId} />
+                <ListItemText primary="Email" secondary={email} />
               </ListItem>
 
             </List>
