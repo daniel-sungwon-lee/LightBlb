@@ -72,7 +72,7 @@ export default function App() {
           </Route>
 
           <Route exact path="/profile">
-            <Profile />
+            <Profile user={user} />
           </Route>
 
         </Switch>
