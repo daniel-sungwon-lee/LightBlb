@@ -120,7 +120,8 @@ export default function Nav(props) {
               </IconButton>
             </Tooltip>
 
-            <Post open={newPost} setOpen={setNewPost} />
+            <Post open={newPost} setOpen={setNewPost} user={props.user}
+             setLoading={props.setLoading} />
 
           </Toolbar>
         </AppBar>

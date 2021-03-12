@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogTitle, TextField, Slide,
          DialogActions, IconButton } from '@material-ui/core';
 import { DoneRounded, BlockRounded } from '@material-ui/icons';
@@ -22,7 +22,29 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 })
 
 export default function Post(props) {
-  const classes = useStyles()
+  const classes = useStyles();
+  const [content, setContent] = useState('');
+
+  const handleChange = (event) => {
+    const { value } = event.target
+    setContent(value)
+  }
+
+  const handleSubmit = (event) => {
+    props.setLoading(true)
+    event.preventDefault()
+
+    const { userId } = props.user
+    const reqBody = { userId, content }
+
+    fetch('/api/post', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(reqBody)
+    })
+      .then(() => props.setLoading(false))
+      .catch(() => window.location.reload())
+  }
 
   return (
     <Dialog open={props.open} onClose={() => props.setOpen(false)} TransitionComponent={Transition}
@@ -31,10 +53,10 @@ export default function Post(props) {
         <DialogTitle>
           <h2>New Post</h2>
         </DialogTitle>
-        <form>
+        <form onSubmit={handleSubmit}>
           <DialogContent>
             <TextField multiline id="content" rows={5} variant="filled" label="What is your great idea?"
-            fullWidth spellCheck required InputLabelProps={{required: false}} />
+            fullWidth spellCheck required InputLabelProps={{required: false}} value={content} onChange={handleChange} />
           </DialogContent>
           <DialogActions>
             <IconButton onClick={() => props.setOpen(false)}>
