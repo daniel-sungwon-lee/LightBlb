@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { AppBar, Button, Drawer, Icon, IconButton, List, ListItem, Toolbar,
          Tooltip, Slide } from '@material-ui/core';
-import { ExitToAppRounded, HomeRounded, MenuRounded, PersonRounded } from '@material-ui/icons';
+import { ExitToAppRounded, HomeRounded, MenuRounded, PersonRounded,
+         PostAddRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 
@@ -21,6 +22,9 @@ const useStyles = makeStyles({
   },
   tooltip: {
     backgroundColor: "#F50057"
+  },
+  tooltipBrown: {
+    backgroundColor: "#694D33"
   }
 })
 
@@ -38,10 +42,19 @@ export default function Nav(props) {
     <Slide direction="left" in>
       <div className="sticky-top mb-5">
         <AppBar position="sticky" classes={{root: classes.root}}>
-          <Toolbar>
+          <Toolbar className="justify-content-between">
+
             <IconButton onClick={toggle("left", true)}>
               <MenuRounded className={classes.icon} />
             </IconButton>
+
+            <a href="#top" className="text-decoration-none">
+              <div className="d-flex align-items-center">
+                <h2 className="m-0 text-dark">LightBlb</h2>
+                <img src="images/lightblb.svg" alt="LightBlb logo" width="50" />
+              </div>
+            </a>
+
             <Drawer anchor={"left"} open={open["left"]} onClose={toggle("left", false)}>
               <div className={classes.list}>
                 <List className="mt-3">
@@ -86,6 +99,13 @@ export default function Nav(props) {
                 <img src="images/lightblb.svg" width="60" alt="LightBlb logo" />
               </div>
             </Drawer>
+
+            <Tooltip title="New Post" classes={{tooltip: classes.tooltipBrown}}>
+              <IconButton>
+                <PostAddRounded className={classes.icon} />
+              </IconButton>
+            </Tooltip>
+
           </Toolbar>
         </AppBar>
       </div>
