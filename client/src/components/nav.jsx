@@ -81,6 +81,9 @@ export default function Nav(props) {
 
               </List>
             </div>
+            <div className="nav-logo">
+              <img src="images/lightblb.svg" width="60" alt="LightBlb logo" />
+            </div>
           </Drawer>
         </Toolbar>
       </AppBar>
