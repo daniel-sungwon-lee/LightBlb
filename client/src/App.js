@@ -44,7 +44,11 @@ export default function App() {
   }
 
   if (!user) {
-    return <Auth handleLogin={handleLogin} />
+    return (
+      <div className="App">
+        <Auth handleLogin={handleLogin} />
+      </div>
+    )
   }
 
   if (window.location.pathname === "/auth" && user) {
