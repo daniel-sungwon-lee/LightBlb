@@ -44,16 +44,17 @@ export default function Nav(props) {
         <AppBar position="sticky" classes={{root: classes.root}}>
           <Toolbar className="justify-content-between">
 
-            <IconButton onClick={toggle("left", true)}>
-              <MenuRounded className={classes.icon} />
-            </IconButton>
-
-            <a href="#top" className="text-decoration-none">
-              <div className="d-flex align-items-center">
-                <h2 className="m-0 text-dark">LightBlb</h2>
-                <img src="images/lightblb.svg" alt="LightBlb logo" width="50" />
-              </div>
-            </a>
+            <div className="d-flex align-items-center">
+              <IconButton onClick={toggle("left", true)} style={{marginRight: "13px"}}>
+                <MenuRounded className={classes.icon} />
+              </IconButton>
+              <a href="/" className="text-decoration-none">
+                <div className="d-flex align-items-center">
+                  <h3 className="m-0 text-dark">LightBlb</h3>
+                  <img src="images/lightblb.svg" alt="LightBlb logo" width="40" />
+                </div>
+              </a>
+            </div>
 
             <Drawer anchor={"left"} open={open["left"]} onClose={toggle("left", false)}>
               <div className={classes.list}>
@@ -96,7 +97,7 @@ export default function Nav(props) {
                 </List>
               </div>
               <div className="nav-logo">
-                <img src="images/lightblb.svg" width="60" alt="LightBlb logo" />
+                <img src="images/lightblb.svg" width="80" alt="LightBlb logo" />
               </div>
             </Drawer>
 
