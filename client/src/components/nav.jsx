@@ -119,6 +119,7 @@ export default function Nav(props) {
                 <PostAddRounded className={classes.icon} />
               </IconButton>
             </Tooltip>
+
             <Post open={newPost} setOpen={setNewPost} />
 
           </Toolbar>
