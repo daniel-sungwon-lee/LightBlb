@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Spinner from './components/spinner';
 import Auth from './auth';
 import decodeToken from './decode-token';
+import Nav from './components/nav';
 import Home from './home';
 
 export default function App() {
@@ -33,6 +34,11 @@ export default function App() {
     }
   }
 
+  const handleSignOut = () => {
+    window.localStorage.removeItem("userToken")
+    setUser(null)
+  }
+
   if (loading) {
     return <Spinner />
   }
@@ -41,10 +47,15 @@ export default function App() {
     return <Auth handleLogin={handleLogin} />
   }
 
+  if (window.location.pathname === "/auth" && user) {
+    window.location.pathname = "/"
+  }
+
   return (
     <div className="App">
 
       <Router>
+        <Nav handleSignOut={handleSignOut} />
         <Switch>
 
           <Route exact path="/auth">
