@@ -20,7 +20,8 @@ const useStyles = makeStyles({
     backgroundColor: "#694D33"
   },
   tabRoot: {
-    color: "white"
+    color: "white",
+    margin: "0 23px"
   },
   tabIndicator: {
     backgroundColor: "#8EE26B"
@@ -62,7 +63,7 @@ export default function Profile(props) {
     <div className="container">
 
       <Paper classes={{rounded: classes.paper}}>
-        <Tabs value={value} onChange={handleChange} textColor="inherit" centered
+        <Tabs value={value} onChange={handleChange} textColor="inherit" variant="fullWidth"
          classes={{root: classes.tabRoot, indicator: classes.tabIndicator }}>
           <Tab label="Profile" />
           <Tab label="Posts" />
@@ -101,15 +102,31 @@ export default function Profile(props) {
         </TabPanel>
 
         <TabPanel value={value} index={1}>
-          Hello
+          <Posts />
         </TabPanel>
 
         <TabPanel value={value} index={2}>
-          Fuck
+          <Saved />
         </TabPanel>
 
       </SwipeableViews>
 
+    </div>
+  )
+}
+
+function Posts(props) {
+  return (
+    <div className="my-5 mx-3">
+      Hello
+    </div>
+  )
+}
+
+function Saved(props) {
+  return (
+    <div className="my-5 mx-3">
+      To be added...
     </div>
   )
 }
