@@ -27,6 +27,24 @@ const useStyles = makeStyles({
   }
 })
 
+function TabPanel(props) {
+  const { children, value, index } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={index}
+    >
+      {value === index && (
+        <>
+          {children}
+        </>
+      )}
+    </div>
+  );
+}
+
 export default function Profile(props) {
   const { email, userId } = props.user;
   const classes = useStyles();
@@ -42,6 +60,7 @@ export default function Profile(props) {
 
   return (
     <div className="container">
+
       <Paper classes={{rounded: classes.paper}}>
         <Tabs value={value} onChange={handleChange} textColor="inherit" centered
          classes={{root: classes.tabRoot, indicator: classes.tabIndicator }}>
@@ -50,31 +69,47 @@ export default function Profile(props) {
           <Tab label="Saved" />
         </Tabs>
       </Paper>
-      <div className="my-5 mx-3">
-        <Card>
-          <CardMedia children={<FaceRounded className={classes.avatarPlaceholder} />}
-           title="Avatar" />
-          <CardContent classes={{root: classes.cardContentRoot}}>
-            <List>
 
-              <ListItem>
-                <ListItemIcon>
-                  <PersonRounded className={classes.icon} />
-                </ListItemIcon>
-                <ListItemText primary="User Id" secondary={userId} />
-              </ListItem>
+      <SwipeableViews index={value} onChangeIndex={handleIndex}>
 
-              <ListItem>
-                <ListItemIcon>
-                  <EmailRounded className={classes.icon} />
-                </ListItemIcon>
-                <ListItemText primary="Email" secondary={email} />
-              </ListItem>
+        <TabPanel value={value} index={0}>
+          <div className="my-5 mx-3">
+            <Card>
+              <CardMedia children={<FaceRounded className={classes.avatarPlaceholder} />}
+                title="Avatar" />
+              <CardContent classes={{ root: classes.cardContentRoot }}>
+                <List>
 
-            </List>
-          </CardContent>
-        </Card>
-      </div>
+                  <ListItem>
+                    <ListItemIcon>
+                      <PersonRounded className={classes.icon} />
+                    </ListItemIcon>
+                    <ListItemText primary="User Id" secondary={userId} />
+                  </ListItem>
+
+                  <ListItem>
+                    <ListItemIcon>
+                      <EmailRounded className={classes.icon} />
+                    </ListItemIcon>
+                    <ListItemText primary="Email" secondary={email} />
+                  </ListItem>
+
+                </List>
+              </CardContent>
+            </Card>
+          </div>
+        </TabPanel>
+
+        <TabPanel value={value} index={1}>
+          Hello
+        </TabPanel>
+
+        <TabPanel value={value} index={2}>
+          Fuck
+        </TabPanel>
+
+      </SwipeableViews>
+
     </div>
   )
 }
