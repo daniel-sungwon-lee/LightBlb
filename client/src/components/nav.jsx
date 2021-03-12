@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { AppBar, Button, Drawer, Icon, IconButton, List, ListItem, Toolbar,
          Tooltip, Slide } from '@material-ui/core';
 import { ExitToAppRounded, HomeRounded, MenuRounded, PersonRounded,
-         PostAddRounded } from '@material-ui/icons';
+         PostAddRounded, CloseRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import Post from './post';
 
 const useStyles = makeStyles({
   root: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles({
     fontSize: "3rem"
   },
   list: {
-    width: "275px"
+    width: "300px"
   },
   tooltip: {
     backgroundColor: "#F50057"
@@ -33,6 +34,7 @@ export default function Nav(props) {
   const [open, setOpen] = useState({
     left: false
   })
+  const [newPost, setNewPost] = useState(false)
 
   const toggle = (side, open) => () => {
     setOpen({ [side]: open })
@@ -58,7 +60,18 @@ export default function Nav(props) {
 
             <Drawer anchor={"left"} open={open["left"]} onClose={toggle("left", false)}>
               <div className={classes.list}>
-                <List className="mt-3">
+
+                <div className="d-flex align-items-center" style={{marginLeft: "24px", width: "fit-content"}}>
+                  <IconButton onClick={toggle("left", false)} style={{ marginRight: "13px" }}>
+                    <CloseRounded className={classes.icon} />
+                  </IconButton>
+                  <div className="d-flex align-items-center">
+                    <h3 className="m-0 text-dark">LightBlb</h3>
+                    <img src="images/lightblb.svg" alt="LightBlb logo" width="40" />
+                  </div>
+                </div>
+
+                <List>
 
                   <Link to="/" className="text-decoration-none">
                     <Button fullWidth className="p-0">
@@ -102,10 +115,13 @@ export default function Nav(props) {
             </Drawer>
 
             <Tooltip title="New Post" classes={{tooltip: classes.tooltipBrown}}>
-              <IconButton>
+              <IconButton onClick={() => setNewPost(true)}>
                 <PostAddRounded className={classes.icon} />
               </IconButton>
             </Tooltip>
+
+            <Post open={newPost} setOpen={setNewPost} user={props.user}
+             setLoading={props.setLoading} />
 
           </Toolbar>
         </AppBar>

@@ -46,6 +46,8 @@ function errorMiddleware(err, req, res, next) {
 }
 
 //API endpoints
+
+//auth
 app.post('/api/signup', (req, res, next) => {
   const { email, password } = req.body;
 
@@ -98,6 +100,23 @@ app.post('/api/login', (req, res, next) => {
     })
     .catch(err => next(err));
 });
+
+//post
+app.post('/api/post', (req, res, next) => {
+  const { userId, content } = req.body;
+
+  const sql = `
+  insert into "posts" ("userId", "content")
+  values ($1, $2)
+  `;
+  const params = [userId, content]
+
+  db.query(sql, params)
+    .then(result => {
+      res.status(201).json(result.rows[0])
+    })
+    .catch(err => next(err))
+})
 
 
 //for Heroku deployment

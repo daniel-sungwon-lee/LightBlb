@@ -60,7 +60,7 @@ export default function App() {
     <div className="App">
 
       <Router>
-        <Nav handleSignOut={handleSignOut} />
+        <Nav handleSignOut={handleSignOut} user={user} setLoading={setLoading} />
         <Switch>
 
           <Route exact path="/auth">

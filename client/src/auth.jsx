@@ -237,7 +237,7 @@ function Modal() {
         </DialogTitle>
         <DialogContent className={classes.content}>
           <p>
-            LightBlb is a place where creative minds can share their ideas; sign in to
+            LightBlb is a place where creative minds can share startup ideas; sign in to
             share and see some great ideas!
           </p>
         </DialogContent>
