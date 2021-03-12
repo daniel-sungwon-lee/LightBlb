@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AppBar, Button, Drawer, Icon, IconButton, List, ListItem, Toolbar,
          Tooltip, Slide } from '@material-ui/core';
-import { ExitToAppRounded, HomeRounded, MenuRounded } from '@material-ui/icons';
+import { ExitToAppRounded, HomeRounded, MenuRounded, PersonRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 
@@ -14,6 +14,9 @@ const useStyles = makeStyles({
   },
   list: {
     width: "275px"
+  },
+  tooltipR: {
+    backgroundColor: "#694D33"
   },
   tooltip: {
     backgroundColor: "#F50057"
@@ -49,6 +52,18 @@ export default function Nav(props) {
                       </h3>
                     </ListItem>
                   </Button>
+                </Link>
+
+                <Link to="/profile" className="text-decoration-none">
+                  <Tooltip title="Profile" classes={{ tooltip: classes.tooltipR }}>
+                    <Button fullWidth className="p-0">
+                      <ListItem className="d-flex justify-content-center py-3" onClick={toggle("left", false)}>
+                        <h3 className="m-0 text-dark">
+                          <PersonRounded className={classes.icon} />
+                        </h3>
+                      </ListItem>
+                    </Button>
+                  </Tooltip>
                 </Link>
 
                 <Link to="/auth" className="text-decoration-none">
