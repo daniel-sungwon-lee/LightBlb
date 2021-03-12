@@ -6,6 +6,7 @@ import Auth from './auth';
 import decodeToken from './decode-token';
 import Nav from './components/nav';
 import Home from './home';
+import Profile from './profile';
 
 export default function App() {
   const [user, setUser] = useState(null)
@@ -68,6 +69,10 @@ export default function App() {
 
           <Route exact path="/">
             <Home />
+          </Route>
+
+          <Route exact path="/profile">
+            <Profile />
           </Route>
 
         </Switch>
