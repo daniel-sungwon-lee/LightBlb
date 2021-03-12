@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { AppBar, Button, Drawer, Icon, IconButton, List, ListItem, Toolbar,
          Tooltip, Slide } from '@material-ui/core';
 import { ExitToAppRounded, HomeRounded, MenuRounded, PersonRounded,
-         PostAddRounded } from '@material-ui/icons';
+         PostAddRounded, CloseRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 
@@ -58,7 +58,18 @@ export default function Nav(props) {
 
             <Drawer anchor={"left"} open={open["left"]} onClose={toggle("left", false)}>
               <div className={classes.list}>
-                <List className="mt-3">
+
+                <div className="d-flex align-items-center" style={{margin: "auto", width: "fit-content"}}>
+                  <IconButton onClick={toggle("left", false)} style={{ marginRight: "13px" }}>
+                    <CloseRounded className={classes.icon} />
+                  </IconButton>
+                  <div className="d-flex align-items-center">
+                    <h3 className="m-0 text-dark">LightBlb</h3>
+                    <img src="images/lightblb.svg" alt="LightBlb logo" width="40" />
+                  </div>
+                </div>
+
+                <List>
 
                   <Link to="/" className="text-decoration-none">
                     <Button fullWidth className="p-0">
