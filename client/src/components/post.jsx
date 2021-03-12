@@ -55,7 +55,7 @@ export default function Post(props) {
         </DialogTitle>
         <form onSubmit={handleSubmit}>
           <DialogContent>
-            <TextField multiline id="content" rows={5} variant="filled" label="What is your great idea?"
+            <TextField multiline id="content" rows={5} variant="filled" label="What is your great startup idea?"
             fullWidth spellCheck required InputLabelProps={{required: false}} value={content} onChange={handleChange} />
           </DialogContent>
           <DialogActions>
