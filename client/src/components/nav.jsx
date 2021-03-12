@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     fontSize: "3rem"
   },
   list: {
-    width: "275px"
+    width: "300px"
   },
   tooltip: {
     backgroundColor: "#F50057"
@@ -59,7 +59,7 @@ export default function Nav(props) {
             <Drawer anchor={"left"} open={open["left"]} onClose={toggle("left", false)}>
               <div className={classes.list}>
 
-                <div className="d-flex align-items-center" style={{margin: "auto", width: "fit-content"}}>
+                <div className="d-flex align-items-center" style={{marginLeft: "24px", width: "fit-content"}}>
                   <IconButton onClick={toggle("left", false)} style={{ marginRight: "13px" }}>
                     <CloseRounded className={classes.icon} />
                   </IconButton>
