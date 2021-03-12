@@ -5,6 +5,7 @@ import { ExitToAppRounded, HomeRounded, MenuRounded, PersonRounded,
          PostAddRounded, CloseRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import Post from './post';
 
 const useStyles = makeStyles({
   root: {
@@ -33,6 +34,7 @@ export default function Nav(props) {
   const [open, setOpen] = useState({
     left: false
   })
+  const [newPost, setNewPost] = useState(false)
 
   const toggle = (side, open) => () => {
     setOpen({ [side]: open })
@@ -113,10 +115,11 @@ export default function Nav(props) {
             </Drawer>
 
             <Tooltip title="New Post" classes={{tooltip: classes.tooltipBrown}}>
-              <IconButton>
+              <IconButton onClick={() => setNewPost(true)}>
                 <PostAddRounded className={classes.icon} />
               </IconButton>
             </Tooltip>
+            <Post open={newPost} setOpen={setNewPost} />
 
           </Toolbar>
         </AppBar>
