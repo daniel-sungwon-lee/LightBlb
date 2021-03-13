@@ -169,7 +169,7 @@ function Posts(props) {
                 const { content, postId } = post
 
                 return (
-                  <ListItem alignItems="flex-start" className={classes.listItemCard}>
+                  <ListItem key={postId} alignItems="flex-start" className={classes.listItemCard}>
                     <ListItemAvatar>
                       <Avatar classes={{colorDefault: classes.avatar}}>
                         <FaceRounded />
