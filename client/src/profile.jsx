@@ -189,7 +189,7 @@ function Posts(props) {
           <List>
             {
               data.map(post => {
-                const { content, postId } = post
+                const { content, postId, userId } = post
 
                 return (
                   <ListItem key={postId} alignItems="flex-start" className={classes.listItemCard}>
@@ -221,7 +221,8 @@ function Posts(props) {
                                 <EditRounded fontSize="large" />
                               </div>
                             </MenuItem>
-                            <EditPost open={openDel} setOpen={setOpenDel} />
+                            <EditPost setLoading={setLoading} open={openDel} setOpen={setOpenDel}
+                             userId={userId} postId={postId} />
 
                             <MenuItem>
                               <div className="p-2">
@@ -246,6 +247,7 @@ function Posts(props) {
   )
 }
 
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />
 })
@@ -254,9 +256,33 @@ function EditPost(props) {
   const classes = useStyles();
   const [content, setContent] = useState('');
 
+  useEffect(() => {
+    fetch(`/api/posts/${props.userId}/${props.postId}`)
+     .then(res => res.json())
+     .then(data => {
+       const { content } = data
+       setContent(content)
+     })
+  }, [props.postId, props.userId])
+
   const handleChange = (event) => {
     const { value } = event.target
     setContent(value)
+  }
+
+  const handleSubmit = (event) => {
+    props.setLoading(true)
+    event.preventDefault()
+
+    const reqBody = { content }
+
+    fetch(`/api/posts/${props.userId}/${props.postId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(reqBody)
+    })
+      .then(() => props.setLoading(false))
+      .catch(() => window.location.reload())
   }
 
   return (
@@ -266,22 +292,25 @@ function EditPost(props) {
         <DialogTitle>
           <h2>Edit Post</h2>
         </DialogTitle>
-        <DialogContent>
-          <TextField multiline id="content" rows={5} variant="filled" label="Edit post"
-            color="secondary" fullWidth spellCheck required InputLabelProps={{ required: false }} value={content} onChange={handleChange} />
-        </DialogContent>
-        <DialogActions>
-          <IconButton>
-            <BlockRounded color="secondary" className={classes.modalIcon} />
-          </IconButton>
-          <IconButton>
-            <DoneRounded style={{color: "#694D33"}} className={classes.modalIcon} />
-          </IconButton>
-        </DialogActions>
+        <form onSubmit={handleSubmit}>
+          <DialogContent>
+            <TextField multiline id="content" rows={5} variant="filled" label="Edit post"
+              color="secondary" fullWidth spellCheck required InputLabelProps={{ required: false }} value={content} onChange={handleChange} />
+          </DialogContent>
+          <DialogActions>
+            <IconButton onClick={() => props.setOpen(false)}>
+              <BlockRounded color="secondary" className={classes.modalIcon} />
+            </IconButton>
+            <IconButton type="submit">
+              <DoneRounded style={{color: "#694D33"}} className={classes.modalIcon} />
+            </IconButton>
+          </DialogActions>
+        </form>
       </div>
     </Dialog>
   )
 }
+
 
 function Saved(props) {
   const classes = useStyles()

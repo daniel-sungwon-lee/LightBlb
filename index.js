@@ -136,6 +136,23 @@ app.get('/api/posts/:userId', (req, res, next) => {
     .catch(err => next(err));
 })
 
+app.get('/api/posts/:userId/:postId', (req, res, next) => {
+  const { userId, postId } = req.params;
+
+  const sql = `
+  select * from "posts"
+  where "userId" = $1
+  and "postId" = $2
+  `;
+  const params = [userId, postId];
+
+  db.query(sql, params)
+    .then(result => {
+      res.status(200).json(result.rows[0]);
+    })
+    .catch(err => next(err));
+})
+
 app.patch('/api/posts/:userId/:postId', (req, res, next) => {
   const { userId, postId } = req.params
   const { content } = req.body
