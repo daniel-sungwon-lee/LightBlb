@@ -51,7 +51,8 @@ const useStyles = makeStyles({
     fontSize: "3rem"
   },
   deletePaper: {
-    padding: "2rem"
+    padding: "2rem",
+    width: "75%"
   }
 })
 
@@ -310,7 +311,7 @@ function EditPost(props) {
         </DialogTitle>
         <form onSubmit={handleSubmit}>
           <DialogContent>
-            <TextField multiline id="content" rows={5} variant="filled" label="Edit post"
+            <TextField multiline id="content" rows={5} variant="filled" label="Edit your post"
               color="secondary" fullWidth spellCheck required InputLabelProps={{ required: false }} value={content} onChange={handleChange} />
           </DialogContent>
           <DialogActions>
