@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardMedia, List, ListItem,
-         ListItemIcon, ListItemText, Paper, Tabs, Tab } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { Card, CardContent, CardMedia, List, ListItem, Paper, Tabs, Tab, Avatar,
+         ListItemIcon, ListItemText, ListItemAvatar } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 import { EmailRounded, FaceRounded, PersonRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
+import Spinner from './components/spinner';
 
 const useStyles = makeStyles({
   avatarPlaceholder: {
@@ -25,6 +26,13 @@ const useStyles = makeStyles({
   },
   tabIndicator: {
     backgroundColor: "#8EE26B"
+  },
+  listItemCard: {
+    margin: "2rem 0"
+  },
+  avatar: {
+    color: "black",
+    backgroundColor: "#FFEC29"
   }
 })
 
@@ -49,7 +57,14 @@ function TabPanel(props) {
 export default function Profile(props) {
   const { email, userId } = props.user;
   const classes = useStyles();
+  const [loading, setLoading] = useState(true)
   const [value, setValue] = useState(0);
+
+  useEffect(() => {
+
+    setLoading(false)
+
+  }, [])
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -57,6 +72,10 @@ export default function Profile(props) {
 
   const handleIndex = (index) => {
     setValue(index)
+  }
+
+  if(loading) {
+    return <Spinner />
   }
 
   return (
@@ -102,7 +121,7 @@ export default function Profile(props) {
         </TabPanel>
 
         <TabPanel value={value} index={1}>
-          <Posts />
+          <Posts userId={userId} />
         </TabPanel>
 
         <TabPanel value={value} index={2}>
@@ -116,9 +135,54 @@ export default function Profile(props) {
 }
 
 function Posts(props) {
+  const classes = useStyles()
+  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    setLoading(true)
+
+    fetch(`/api/posts/${props.userId}`)
+      .then(res => res.json())
+      .then(data => {
+        setData(data)
+        setLoading(false)
+      })
+      .catch(() => window.location.reload())
+  }, [props.userId])
+
+  if(loading) {
+    return (
+      <div className="my-5 mx-3 position-relative" style={{height: "440px"}}>
+        <Spinner />
+      </div>
+    )
+  }
+
   return (
     <div className="my-5 mx-3">
-      Hello
+      <Card>
+        <CardContent>
+          <List>
+            {
+              data.map(post => {
+                const { content, postId } = post
+
+                return (
+                  <ListItem alignItems="flex-start" className={classes.listItemCard}>
+                    <ListItemAvatar>
+                      <Avatar classes={{colorDefault: classes.avatar}}>
+                        <FaceRounded />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={content} secondary={`Post Id: ${postId}`} />
+                  </ListItem>
+                )
+              })
+            }
+          </List>
+        </CardContent>
+      </Card>
     </div>
   )
 }
