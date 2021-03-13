@@ -27,6 +27,9 @@ const useStyles = makeStyles({
   tabIndicator: {
     backgroundColor: "#8EE26B"
   },
+  cardRoot: {
+    minHeight: "440px"
+  },
   listItemCard: {
     margin: "2rem 0"
   },
@@ -157,15 +160,17 @@ function Posts(props) {
 
   if(loading) {
     return (
-      <div className="my-5 mx-3 position-relative" style={{height: "440px"}}>
-        <Spinner />
+      <div className="my-5 mx-3 position-relative">
+        <Card classes={{root: classes.cardRoot}}>
+          <Spinner />
+        </Card>
       </div>
     )
   }
 
   return (
     <div className="my-5 mx-3">
-      <Card>
+      <Card classes={{root: classes.cardRoot}}>
         <CardContent>
           <List>
             {
@@ -192,9 +197,13 @@ function Posts(props) {
 }
 
 function Saved(props) {
+  const classes = useStyles()
+
   return (
     <div className="my-5 mx-3">
-      To be added...
+      <Card classes={{root: classes.cardRoot}}>
+
+      </Card>
     </div>
   )
 }
