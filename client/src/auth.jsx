@@ -75,6 +75,8 @@ export default function Auth(props) {
       setPage("signup")
       setEmail("")
       setPassword("")
+      setError(false)
+      setErrText("")
 
     } else {
       setPage("login")
@@ -154,11 +156,11 @@ export default function Auth(props) {
               <form className="d-flex flex-column align-items-center mt-4" onSubmit={handleLogin}>
                 <TextField id="email" label="Email" required InputLabelProps={{required: false}}
                 type="email" value={email} className="mt-4" onChange={handleChange} variant="filled"
-                error={error} />
+                error={error} color="secondary" />
 
                 <TextField id="password" label="Password" required InputLabelProps={{required: false}}
                 type="password" value={password} className="mt-4" onChange={handleChange} variant="filled"
-                error={error} helperText={errText} />
+                error={error} helperText={errText} color="secondary" />
 
                 <Tooltip title="Login" classes={{tooltip: classes.tooltip}}>
                   <IconButton className="mt-2" type="submit">
@@ -191,10 +193,12 @@ export default function Auth(props) {
             </div>
             <form className="d-flex flex-column align-items-center mt-4" onSubmit={handleSignUp}>
               <TextField id="email" label="Email" required InputLabelProps={{ required: false }}
-                type="email" value={email} className="mt-4" onChange={handleChange} variant="filled" />
+                type="email" value={email} className="mt-4" onChange={handleChange} variant="filled"
+                color="secondary" />
 
               <TextField id="password" label="Password" required InputLabelProps={{ required: false }}
-                type="password" value={password} className="mt-4" onChange={handleChange} variant="filled" />
+                type="password" value={password} className="mt-4" onChange={handleChange} variant="filled"
+                color="secondary" />
 
               <Tooltip title="Sign up" classes={{tooltip: classes.tooltip}}>
                 <IconButton className="mt-2" type="submit">

@@ -56,7 +56,7 @@ export default function Post(props) {
         <form onSubmit={handleSubmit}>
           <DialogContent>
             <TextField multiline id="content" rows={5} variant="filled" label="What is your great startup idea?"
-            fullWidth spellCheck required InputLabelProps={{required: false}} value={content} onChange={handleChange} />
+             color="secondary" fullWidth spellCheck required InputLabelProps={{required: false}} value={content} onChange={handleChange} />
           </DialogContent>
           <DialogActions>
             <IconButton onClick={() => props.setOpen(false)}>

@@ -95,7 +95,7 @@ export default function Profile(props) {
         </Paper>
       </Slide>
 
-      <Slide in direction="left" timeout={700}>
+      <Slide in direction="left" timeout={500}>
         <SwipeableViews index={value} onChangeIndex={handleIndex}>
 
           <TabPanel value={value} index={0}>
@@ -110,7 +110,7 @@ export default function Profile(props) {
                       <ListItemIcon>
                         <PersonRounded className={classes.icon} />
                       </ListItemIcon>
-                      <ListItemText primary="User Id" secondary={userId} />
+                      <ListItemText primary="User ID" secondary={userId} />
                     </ListItem>
 
                     <ListItem>
@@ -184,7 +184,7 @@ function Posts(props) {
                         <FaceRounded />
                       </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={content} secondary={`Post Id: ${postId}`} />
+                    <ListItemText primary={content} secondary={`Post ID: ${postId}`} />
                   </ListItem>
                 )
               })
