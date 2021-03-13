@@ -70,6 +70,7 @@ function TabPanel(props) {
   );
 }
 
+//main page (profile tab)
 export default function Profile(props) {
   const { email, userId } = props.user;
   const classes = useStyles();
@@ -154,11 +155,12 @@ export default function Profile(props) {
   )
 }
 
+//posts tab
 function Posts(props) {
   const classes = useStyles()
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
-  const [openDel, setOpenDel] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
 
   useEffect(() => {
     setLoading(true)
@@ -216,15 +218,15 @@ function Posts(props) {
                             getContentAnchorEl={null}
                             >
 
-                            <MenuItem onClick={() => setOpenDel(true)}>
+                            <MenuItem onClick={() => setOpenEdit(true)}>
                               <div className="p-2">
                                 <EditRounded fontSize="large" />
                               </div>
                             </MenuItem>
-                            <EditPost setLoading={setLoading} open={openDel} setOpen={setOpenDel}
-                             userId={userId} postId={postId} />
+                            <EditPost setLoading={setLoading} open={openEdit} setOpen={setOpenEdit}
+                            userId={userId} postId={postId} popupState={popupState} />
 
-                            <MenuItem>
+                            <MenuItem onClick={popupState.close}>
                               <div className="p-2">
                                 <DeleteRounded color="secondary" fontSize="large" />
                               </div>
@@ -247,7 +249,7 @@ function Posts(props) {
   )
 }
 
-
+//edit post modal
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />
 })
@@ -270,6 +272,11 @@ function EditPost(props) {
     setContent(value)
   }
 
+  const handleClose = () => {
+    props.setOpen(false)
+    props.popupState.close()
+  }
+
   const handleSubmit = (event) => {
     props.setLoading(true)
     event.preventDefault()
@@ -281,13 +288,15 @@ function EditPost(props) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(reqBody)
     })
-      .then(() => props.setLoading(false))
+      .then(() => {
+        props.setLoading(false)
+      })
       .catch(() => window.location.reload())
   }
 
   return (
     <Dialog open={props.open} onClose={() => props.setOpen(false)} classes={{paper: classes.modalPaper}}
-     TransitionComponent={Transition}>
+     TransitionComponent={Transition} onBackdropClick={props.popupState.close}>
       <div className="m-3">
         <DialogTitle>
           <h2>Edit Post</h2>
@@ -298,7 +307,7 @@ function EditPost(props) {
               color="secondary" fullWidth spellCheck required InputLabelProps={{ required: false }} value={content} onChange={handleChange} />
           </DialogContent>
           <DialogActions>
-            <IconButton onClick={() => props.setOpen(false)}>
+            <IconButton onClick={handleClose}>
               <BlockRounded color="secondary" className={classes.modalIcon} />
             </IconButton>
             <IconButton type="submit">
@@ -311,7 +320,7 @@ function EditPost(props) {
   )
 }
 
-
+//saved tab
 function Saved(props) {
   const classes = useStyles()
 
