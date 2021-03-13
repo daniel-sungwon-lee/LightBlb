@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardMedia, List, ListItem, Paper, Tabs, Tab, Avatar,
-         ListItemIcon, ListItemText, ListItemAvatar } from '@material-ui/core';
+         ListItemIcon, ListItemText, ListItemAvatar, Slide } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 import { EmailRounded, FaceRounded, PersonRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
@@ -81,54 +81,58 @@ export default function Profile(props) {
   return (
     <div className="container">
 
-      <Paper classes={{rounded: classes.paper}}>
-        <Tabs value={value} onChange={handleChange} textColor="inherit" variant="fullWidth"
-         classes={{root: classes.tabRoot, indicator: classes.tabIndicator }}>
-          <Tab label="Profile" />
-          <Tab label="Posts" />
-          <Tab label="Saved" />
-        </Tabs>
-      </Paper>
+      <Slide in direction="down" timeout={500}>
+        <Paper classes={{rounded: classes.paper}}>
+          <Tabs value={value} onChange={handleChange} textColor="inherit" variant="fullWidth"
+          classes={{root: classes.tabRoot, indicator: classes.tabIndicator }}>
+            <Tab label="Profile" />
+            <Tab label="Posts" />
+            <Tab label="Saved" />
+          </Tabs>
+        </Paper>
+      </Slide>
 
-      <SwipeableViews index={value} onChangeIndex={handleIndex}>
+      <Slide in direction="left" timeout={700}>
+        <SwipeableViews index={value} onChangeIndex={handleIndex}>
 
-        <TabPanel value={value} index={0}>
-          <div className="my-5 mx-3">
-            <Card>
-              <CardMedia children={<FaceRounded className={classes.avatarPlaceholder} />}
-                title="Avatar" />
-              <CardContent classes={{ root: classes.cardContentRoot }}>
-                <List>
+          <TabPanel value={value} index={0}>
+            <div className="my-5 mx-3">
+              <Card>
+                <CardMedia children={<FaceRounded className={classes.avatarPlaceholder} />}
+                  title="Avatar" />
+                <CardContent classes={{ root: classes.cardContentRoot }}>
+                  <List>
 
-                  <ListItem>
-                    <ListItemIcon>
-                      <PersonRounded className={classes.icon} />
-                    </ListItemIcon>
-                    <ListItemText primary="User Id" secondary={userId} />
-                  </ListItem>
+                    <ListItem>
+                      <ListItemIcon>
+                        <PersonRounded className={classes.icon} />
+                      </ListItemIcon>
+                      <ListItemText primary="User Id" secondary={userId} />
+                    </ListItem>
 
-                  <ListItem>
-                    <ListItemIcon>
-                      <EmailRounded className={classes.icon} />
-                    </ListItemIcon>
-                    <ListItemText primary="Email" secondary={email} />
-                  </ListItem>
+                    <ListItem>
+                      <ListItemIcon>
+                        <EmailRounded className={classes.icon} />
+                      </ListItemIcon>
+                      <ListItemText primary="Email" secondary={email} />
+                    </ListItem>
 
-                </List>
-              </CardContent>
-            </Card>
-          </div>
-        </TabPanel>
+                  </List>
+                </CardContent>
+              </Card>
+            </div>
+          </TabPanel>
 
-        <TabPanel value={value} index={1}>
-          <Posts userId={userId} />
-        </TabPanel>
+          <TabPanel value={value} index={1}>
+            <Posts userId={userId} />
+          </TabPanel>
 
-        <TabPanel value={value} index={2}>
-          <Saved />
-        </TabPanel>
+          <TabPanel value={value} index={2}>
+            <Saved />
+          </TabPanel>
 
-      </SwipeableViews>
+        </SwipeableViews>
+      </Slide>
 
     </div>
   )

@@ -41,7 +41,7 @@ export default function Nav(props) {
   }
 
   return (
-    <Slide direction="left" in>
+    <Slide direction="down" in>
       <div className="sticky-top mb-5">
         <AppBar position="sticky" classes={{root: classes.root}}>
           <Toolbar className="justify-content-between">
