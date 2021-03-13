@@ -118,6 +118,24 @@ app.post('/api/post', (req, res, next) => {
     .catch(err => next(err))
 })
 
+//profile (posts)
+app.get('/api/posts/:userId', (req, res, next) => {
+  const userId = req.params.userId;
+
+  const sql = `
+  select * from "posts"
+  where "userId" = $1
+  order by "postId" desc
+  `;
+  const params = [userId];
+
+  db.query(sql, params)
+    .then(result => {
+      res.status(200).json(result.rows);
+    })
+    .catch(err => next(err));
+})
+
 
 //for Heroku deployment
 if (process.env.NODE_ENV === 'production') {
