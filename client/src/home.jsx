@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, List, ListItem, ListItemAvatar,
-         Avatar, ListItemText } from '@material-ui/core';
+import { Card, CardContent, List, ListItem, ListItemAvatar, Checkbox,
+         Avatar, ListItemText, ListItemSecondaryAction } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { FaceRounded } from '@material-ui/icons';
+import { FaceRounded, SaveRounded, SaveOutlined } from '@material-ui/icons';
 import Spinner from './components/spinner';
 
 const useStyles = makeStyles({
@@ -17,6 +17,15 @@ const useStyles = makeStyles({
   },
   avatarIcon: {
     fontSize: "3rem"
+  },
+  saveIcon: {
+    fontSize: "2rem"
+  },
+  unchecked: {
+    color: "#694D33"
+  },
+  checked: {
+    color: "#8EE26B"
   }
 })
 
@@ -24,6 +33,7 @@ export default function Home(props) {
   const classes = useStyles()
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
+  const [isChecked, setChecked] = useState(false)
 
   useEffect(() => {
     fetch('/api/posts')
@@ -60,7 +70,13 @@ export default function Home(props) {
 
                     <ListItemText primary={content} secondary={`User ID: ${userId}`} />
 
-
+                    <ListItemSecondaryAction>
+                      <Checkbox checkedIcon={<SaveRounded className={classes.saveIcon} />}
+                       icon={<SaveOutlined className={classes.saveIcon} />} checked={isChecked}
+                       id={postId.toString()} onChange={() => setChecked(true)} classes={{
+                         checked: classes.checked, root: classes.unchecked
+                        }} color="default" />
+                    </ListItemSecondaryAction>
 
                   </CardContent>
                 </ListItem>
