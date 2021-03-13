@@ -141,7 +141,7 @@ export default function Profile(props) {
           </TabPanel>
 
           <TabPanel value={value} index={1}>
-            <Posts userId={userId} />
+            <Posts userId={userId} setLoading={setLoading} setValue={setValue} />
           </TabPanel>
 
           <TabPanel value={value} index={2}>
@@ -223,8 +223,8 @@ function Posts(props) {
                                 <EditRounded fontSize="large" />
                               </div>
                             </MenuItem>
-                            <EditPost setLoading={setLoading} open={openEdit} setOpen={setOpenEdit}
-                            userId={userId} postId={postId} popupState={popupState} />
+                            <EditPost setLoading={props.setLoading} open={openEdit} setOpen={setOpenEdit}
+                            userId={userId} postId={postId} popupState={popupState} setValue={props.setValue} />
 
                             <MenuItem onClick={popupState.close}>
                               <div className="p-2">
@@ -289,6 +289,7 @@ function EditPost(props) {
       body: JSON.stringify(reqBody)
     })
       .then(() => {
+        props.setValue(1)
         props.setLoading(false)
       })
       .catch(() => window.location.reload())
