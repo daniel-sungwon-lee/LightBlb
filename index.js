@@ -189,6 +189,19 @@ app.delete('/api/posts/:userId/:postId', (req, res, next) => {
     .catch(err => next(err));
 })
 
+//home
+app.get('/api/posts', (req, res, next) => {
+  const sql = `
+  select * from "posts"
+  order by "postId" desc
+  `;
+
+  db.query(sql)
+    .then(result => {
+      res.status(200).json(result.rows);
+    })
+    .catch(err => next(err));
+})
 
 //for Heroku deployment
 if (process.env.NODE_ENV === 'production') {
