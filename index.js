@@ -172,6 +172,23 @@ app.patch('/api/posts/:userId/:postId', (req, res, next) => {
     .catch(err => next(err))
 })
 
+app.delete('/api/posts/:userId/:postId', (req, res, next) => {
+  const { userId, postId } = req.params
+
+  const sql = `
+  delete from "posts"
+  where "userId" = $1
+  and "postId" = $2
+  `
+  const params = [userId, postId]
+
+  db.query(sql, params)
+    .then(result => {
+      res.status(204).json(result.rows[0])
+    })
+    .catch(err => next(err));
+})
+
 
 //for Heroku deployment
 if (process.env.NODE_ENV === 'production') {
