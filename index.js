@@ -136,6 +136,25 @@ app.get('/api/posts/:userId', (req, res, next) => {
     .catch(err => next(err));
 })
 
+app.patch('/api/posts/:userId/:postId', (req, res, next) => {
+  const { userId, postId } = req.params
+  const { content } = req.body
+
+  const sql = `
+  update "posts"
+  set "content" = $3
+  where "userId" = $1
+  and "postId" = $2
+  `
+  const params = [userId, postId, content]
+
+  db.query(sql, params)
+    .then(result => {
+      res.status(200).json(result.rows[0])
+    })
+    .catch(err => next(err))
+})
+
 
 //for Heroku deployment
 if (process.env.NODE_ENV === 'production') {

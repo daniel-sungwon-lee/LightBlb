@@ -39,6 +39,9 @@ const useStyles = makeStyles({
   avatar: {
     color: "black",
     backgroundColor: "#FFEC29"
+  },
+  menu: {
+    borderRadius: "3rem !important"
   }
 })
 
@@ -199,7 +202,11 @@ function Posts(props) {
                             <MoreVertRounded fontSize="large" />
                           </IconButton>
 
-                          <Menu {...bindMenu(popupState)}>
+                          <Menu classes={{paper: classes.menu}} {...bindMenu(popupState)}
+                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                            getContentAnchorEl={null}
+                            >
 
                             <MenuItem>
                               <div className="p-2">
