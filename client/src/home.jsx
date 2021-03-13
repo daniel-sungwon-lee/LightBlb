@@ -11,7 +11,12 @@ const useStyles = makeStyles({
   },
   avatar: {
     color: "black",
-    backgroundColor: "#FFEC29"
+    backgroundColor: "#FFEC29",
+    width: "70px",
+    height: "70px"
+  },
+  avatarIcon: {
+    fontSize: "3rem"
   }
 })
 
@@ -49,7 +54,7 @@ export default function Home(props) {
 
                     <ListItemAvatar>
                       <Avatar classes={{colorDefault: classes.avatar}}>
-                        <FaceRounded />
+                        <FaceRounded className={classes.avatarIcon} />
                       </Avatar>
                     </ListItemAvatar>
 
