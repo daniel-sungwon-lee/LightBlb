@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardMedia, List, ListItem, Paper, Tabs, Tab, Avatar,
-         ListItemIcon, ListItemText, ListItemAvatar, Slide } from '@material-ui/core';
+         ListItemIcon, ListItemText, ListItemAvatar, Slide, IconButton, Menu,
+         MenuItem } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
-import { EmailRounded, FaceRounded, PersonRounded } from '@material-ui/icons';
+import { DeleteRounded, EditRounded, EmailRounded, FaceRounded, MoreVertRounded,
+         PersonRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import Spinner from './components/spinner';
 
 const useStyles = makeStyles({
@@ -179,12 +182,43 @@ function Posts(props) {
 
                 return (
                   <ListItem key={postId} alignItems="flex-start" className={classes.listItemCard}>
+
                     <ListItemAvatar>
                       <Avatar classes={{colorDefault: classes.avatar}}>
                         <FaceRounded />
                       </Avatar>
                     </ListItemAvatar>
+
                     <ListItemText primary={content} secondary={`Post ID: ${postId}`} />
+
+                    <PopupState id="menu" variant="popover">
+                      {
+                        popupState => (
+                          <>
+                          <IconButton {...bindTrigger(popupState)}>
+                            <MoreVertRounded fontSize="large" />
+                          </IconButton>
+
+                          <Menu {...bindMenu(popupState)}>
+
+                            <MenuItem>
+                              <div className="p-2">
+                                <EditRounded fontSize="large" />
+                              </div>
+                            </MenuItem>
+
+                            <MenuItem>
+                              <div className="p-2">
+                                <DeleteRounded color="secondary" fontSize="large" />
+                              </div>
+                            </MenuItem>
+
+                          </Menu>
+                          </>
+                        )
+                      }
+
+                    </PopupState>
                   </ListItem>
                 )
               })
