@@ -4,8 +4,8 @@ import { Card, CardContent, CardMedia, List, ListItem, Paper, Tabs, Tab, Avatar,
          MenuItem, Dialog, DialogTitle, DialogContent, DialogActions,
          TextField } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
-import { DeleteRounded, EditRounded, EmailRounded, FaceRounded, MoreVertRounded,
-         PersonRounded, DoneRounded, BlockRounded } from '@material-ui/icons';
+import { DeleteRounded, EditRounded, EmailRounded, FaceRounded, MoreVertRounded, ArrowBackRounded,
+         PersonRounded, DoneRounded, BlockRounded, DeleteForeverRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import Spinner from './components/spinner';
@@ -49,6 +49,9 @@ const useStyles = makeStyles({
   },
   modalIcon: {
     fontSize: "3rem"
+  },
+  deletePaper: {
+    padding: "2rem"
   }
 })
 
@@ -161,6 +164,7 @@ function Posts(props) {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
   const [openEdit, setOpenEdit] = useState(false);
+  const [openDel, setOpenDel] = useState(false);
 
   useEffect(() => {
     setLoading(true)
@@ -224,13 +228,15 @@ function Posts(props) {
                               </div>
                             </MenuItem>
                             <EditPost setLoading={props.setLoading} open={openEdit} setOpen={setOpenEdit}
-                            userId={userId} postId={postId} popupState={popupState} setValue={props.setValue} />
+                             userId={userId} postId={postId} popupState={popupState} setValue={props.setValue} />
 
-                            <MenuItem onClick={popupState.close}>
+                            <MenuItem onClick={() => setOpenDel(true)}>
                               <div className="p-2">
                                 <DeleteRounded color="secondary" fontSize="large" />
                               </div>
                             </MenuItem>
+                            <DeletePost open={openDel} setOpen={setOpenDel} userId={userId} postId={postId}
+                             setLoading={props.setLoading} popupState={popupState} setValue={props.setValue} />
 
                           </Menu>
                           </>
@@ -317,6 +323,51 @@ function EditPost(props) {
           </DialogActions>
         </form>
       </div>
+    </Dialog>
+  )
+}
+
+//delete post modal
+const Transition2 = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />
+})
+
+function DeletePost(props) {
+  const classes = useStyles();
+
+  const handleClose = () => {
+    props.setOpen(false)
+    props.popupState.close()
+  }
+
+  const handleDelete = () => {
+    props.setLoading(true)
+
+    fetch(`/api/posts/${props.userId}/${props.postId}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(() => {
+        props.setValue(1)
+        props.setLoading(false)
+      })
+      .catch(() => window.location.reload())
+  }
+
+  return (
+    <Dialog classes={{ paper: classes.deletePaper }} onClose={() => props.setOpen(false)}
+      open={props.open} TransitionComponent={Transition2} onBackdropClick={props.popupState.close}>
+      <DialogTitle>
+        <h2>Delete Post?</h2>
+      </DialogTitle>
+      <DialogActions>
+        <IconButton onClick={handleClose}>
+          <ArrowBackRounded style={{ color: "#8EE26B" }} className={classes.modalIcon} />
+        </IconButton>
+        <IconButton onClick={handleDelete}>
+          <DeleteForeverRounded color="secondary" className={classes.modalIcon} />
+        </IconButton>
+      </DialogActions>
     </Dialog>
   )
 }
