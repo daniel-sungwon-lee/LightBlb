@@ -302,7 +302,7 @@ function EditPost(props) {
               <BlockRounded color="secondary" className={classes.modalIcon} />
             </IconButton>
             <IconButton type="submit">
-              <DoneRounded style={{color: "#694D33"}} className={classes.modalIcon} />
+              <DoneRounded style={{color: "#8EE26B"}} className={classes.modalIcon} />
             </IconButton>
           </DialogActions>
         </form>

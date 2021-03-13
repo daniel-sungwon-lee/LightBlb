@@ -10,7 +10,7 @@ const useStyles = makeStyles({
   },
   icon: {
     fontSize: "3rem",
-    color: "#694D33"
+    color: "#8EE26B"
   },
   iconSecondary: {
     fontSize: "3rem"
