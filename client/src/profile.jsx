@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardMedia, List, ListItem, Paper, Tabs, Tab, Avatar,
          ListItemIcon, ListItemText, ListItemAvatar, Slide, IconButton, Menu,
-         MenuItem } from '@material-ui/core';
+         MenuItem, Dialog, DialogTitle, DialogContent, DialogActions,
+         TextField } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 import { DeleteRounded, EditRounded, EmailRounded, FaceRounded, MoreVertRounded,
-         PersonRounded } from '@material-ui/icons';
+         PersonRounded, DoneRounded, BlockRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import Spinner from './components/spinner';
@@ -42,6 +43,12 @@ const useStyles = makeStyles({
   },
   menu: {
     borderRadius: "3rem !important"
+  },
+  modalPaper: {
+    width: "75%"
+  },
+  modalIcon: {
+    fontSize: "3rem"
   }
 })
 
@@ -151,6 +158,7 @@ function Posts(props) {
   const classes = useStyles()
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
+  const [openDel, setOpenDel] = useState(false);
 
   useEffect(() => {
     setLoading(true)
@@ -208,11 +216,12 @@ function Posts(props) {
                             getContentAnchorEl={null}
                             >
 
-                            <MenuItem>
+                            <MenuItem onClick={() => setOpenDel(true)}>
                               <div className="p-2">
                                 <EditRounded fontSize="large" />
                               </div>
                             </MenuItem>
+                            <EditPost open={openDel} setOpen={setOpenDel} />
 
                             <MenuItem>
                               <div className="p-2">
@@ -234,6 +243,43 @@ function Posts(props) {
         </CardContent>
       </Card>
     </div>
+  )
+}
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="down" ref={ref} {...props} />
+})
+
+function EditPost(props) {
+  const classes = useStyles();
+  const [content, setContent] = useState('');
+
+  const handleChange = (event) => {
+    const { value } = event.target
+    setContent(value)
+  }
+
+  return (
+    <Dialog open={props.open} onClose={() => props.setOpen(false)} classes={{paper: classes.modalPaper}}
+     TransitionComponent={Transition}>
+      <div className="m-3">
+        <DialogTitle>
+          <h2>Edit Post</h2>
+        </DialogTitle>
+        <DialogContent>
+          <TextField multiline id="content" rows={5} variant="filled" label="Edit post"
+            color="secondary" fullWidth spellCheck required InputLabelProps={{ required: false }} value={content} onChange={handleChange} />
+        </DialogContent>
+        <DialogActions>
+          <IconButton>
+            <BlockRounded color="secondary" className={classes.modalIcon} />
+          </IconButton>
+          <IconButton>
+            <DoneRounded style={{color: "#694D33"}} className={classes.modalIcon} />
+          </IconButton>
+        </DialogActions>
+      </div>
+    </Dialog>
   )
 }
 
