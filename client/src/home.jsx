@@ -44,6 +44,17 @@ export default function Home(props) {
       })
   }, [])
 
+  const handleChange = (event) => {
+    const postId = event.target.id
+    console.log(postId)
+
+    if(event.target.checked) {
+      setChecked(true)
+    } else {
+      setChecked(false)
+    }
+  }
+
   if(loading) {
     return <Spinner />
   }
@@ -72,9 +83,9 @@ export default function Home(props) {
 
                     <ListItemSecondaryAction>
                       <Checkbox checkedIcon={<SaveRounded className={classes.saveIcon} />}
-                       icon={<SaveOutlined className={classes.saveIcon} />} checked={isChecked}
-                       id={postId.toString()} onChange={() => setChecked(true)} classes={{
-                         checked: classes.checked, root: classes.unchecked
+                      icon={<SaveOutlined className={classes.saveIcon} />} checked={isChecked}
+                      id={postId.toString()} onChange={handleChange} classes={{
+                        checked: classes.checked, root: classes.unchecked
                         }} color="default" />
                     </ListItemSecondaryAction>
 
