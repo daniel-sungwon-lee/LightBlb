@@ -33,15 +33,26 @@ export default function Home(props) {
   const classes = useStyles()
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
+  const [saved, setSaved] = useState([])
 
   useEffect(() => {
+    const { userId } = props.user
+
     fetch('/api/posts')
       .then(res => res.json())
       .then(data => {
         setData(data)
-        setLoading(false)
+
+        fetch(`/api/saved/${userId}`)
+          .then(res => res.json())
+          .then(data => {
+            setSaved(data)
+            setLoading(false)
+          })
+          .catch(() => window.location.reload())
       })
-  }, [])
+      .catch(() => window.location.reload())
+  }, [props.user])
 
   const handleChange = (event) => {
     const postId = event.target.id

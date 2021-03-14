@@ -272,6 +272,7 @@ function EditPost(props) {
        const { content } = data
        setContent(content)
      })
+     .catch(() => window.location.reload())
   }, [props.postId, props.userId])
 
   const handleChange = (event) => {
