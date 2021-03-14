@@ -203,6 +203,22 @@ app.get('/api/posts', (req, res, next) => {
     .catch(err => next(err));
 })
 
+app.post('/api/saved', (req, res, next) => {
+  const { postId, userId } = req.body;
+
+  const sql = `
+  insert into "saved" ("postId", "userId")
+  values ($1, $2)
+  `;
+  const params = [postId, userId]
+
+  db.query(sql, params)
+    .then(result => {
+      res.status(201).json(result.rows[0])
+    })
+    .catch(err => next(err))
+})
+
 //for Heroku deployment
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
