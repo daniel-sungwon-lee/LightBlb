@@ -219,6 +219,23 @@ app.post('/api/saved', (req, res, next) => {
     .catch(err => next(err))
 })
 
+app.delete('/api/saved/:postId/:userId', (req, res, next) => {
+  const { postId, userId } = req.params
+
+  const sql = `
+  delete from "saved"
+  where "postId" = $1
+  and "userId" = $2
+  `
+  const params = [postId, userId]
+
+  db.query(sql, params)
+    .then(result => {
+      res.status(204).json(result.rows[0])
+    })
+    .catch(err => next(err));
+})
+
 //for Heroku deployment
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files

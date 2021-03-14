@@ -33,7 +33,6 @@ export default function Home(props) {
   const classes = useStyles()
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
-  const [isChecked, setChecked] = useState(false)
 
   useEffect(() => {
     fetch('/api/posts')
@@ -46,12 +45,23 @@ export default function Home(props) {
 
   const handleChange = (event) => {
     const postId = event.target.id
-    console.log(postId)
+    const userId = props.user.userId
+    const reqBody = { postId, userId }
 
     if(event.target.checked) {
-      setChecked(true)
+      fetch(`/api/saved`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(reqBody)
+      })
+        .catch(() => window.location.reload())
+
     } else {
-      setChecked(false)
+      fetch(`/api/saved/${postId}/${userId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" }
+      })
+        .catch(() => window.location.reload())
     }
   }
 
@@ -83,7 +93,7 @@ export default function Home(props) {
 
                     <ListItemSecondaryAction>
                       <Checkbox checkedIcon={<SaveRounded className={classes.saveIcon} />}
-                      icon={<SaveOutlined className={classes.saveIcon} />} checked={isChecked}
+                      icon={<SaveOutlined className={classes.saveIcon} />}
                       id={postId.toString()} onChange={handleChange} classes={{
                         checked: classes.checked, root: classes.unchecked
                         }} color="default" />
