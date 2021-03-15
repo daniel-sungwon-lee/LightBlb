@@ -9,10 +9,13 @@ Technologies used:
 * JavaScript for logic of app
 * npm for dependencies/packages
 
-# Live Link
+## Live Link
 https://lightblbb.herokuapp.com/
 
-# Current Features
+## Demo GIF
+![lightblb-demo](https://user-images.githubusercontent.com/72715781/111216066-2ad0a100-8591-11eb-9168-ee0957711969.gif)
+
+## Current Features
 * User can login/sign-up
 * User can see all posts
 * User can view profile
@@ -24,9 +27,9 @@ https://lightblbb.herokuapp.com/
 * User can see their saved posts
 * User can remove a saved post
 
-# Features to be Added
+## Features to be Added
 * User can upload avatar
 * User can share a post
 
-# Database Schema
+## Database Schema
 ![image](https://user-images.githubusercontent.com/72715781/111215227-248df500-8590-11eb-8880-b472cc7ff34e.png)
