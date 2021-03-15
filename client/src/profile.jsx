@@ -149,7 +149,7 @@ export default function Profile(props) {
           </TabPanel>
 
           <TabPanel value={value} index={2}>
-            <Saved userId={userId} />
+            <Saved userId={userId} setLoading={setLoading} setValue={setValue} />
           </TabPanel>
 
         </SwipeableViews>
@@ -379,6 +379,7 @@ function Saved(props) {
   const classes = useStyles()
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     setLoading(true)
@@ -421,6 +422,12 @@ function Saved(props) {
 
                     <ListItemText primary={content} secondary={`User ID: ${userId}`} />
 
+                    <IconButton onClick={() => setOpen(true)}>
+                      <DeleteRounded fontSize="large" color="secondary" />
+                    </IconButton>
+                    <DeleteSavedPost open={open} setOpen={setOpen} postId={postId} userId={props.userId}
+                     setLoading={props.setLoading} setValue={props.setValue} />
+
                   </ListItem>
                 )
               })
@@ -429,5 +436,45 @@ function Saved(props) {
         </CardContent>
       </Card>
     </div>
+  )
+}
+
+//delete saved post modal
+function DeleteSavedPost(props) {
+  const classes = useStyles();
+
+  const handleClose = () => {
+    props.setOpen(false)
+  }
+
+  const handleDelete = () => {
+    props.setLoading(true)
+
+    fetch(`/api/saved/${props.postId}/${props.userId}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(() => {
+        props.setValue(2)
+        props.setLoading(false)
+      })
+      .catch(() => window.location.reload())
+  }
+
+  return (
+    <Dialog classes={{ paper: classes.deletePaper }} onClose={() => props.setOpen(false)}
+      open={props.open} TransitionComponent={Transition2}>
+      <DialogTitle>
+        <h2>Delete Saved Post?</h2>
+      </DialogTitle>
+      <DialogActions>
+        <IconButton onClick={handleClose}>
+          <ArrowBackRounded style={{ color: "#8EE26B" }} className={classes.modalIcon} />
+        </IconButton>
+        <IconButton onClick={handleDelete}>
+          <DeleteForeverRounded color="secondary" className={classes.modalIcon} />
+        </IconButton>
+      </DialogActions>
+    </Dialog>
   )
 }
