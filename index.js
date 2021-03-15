@@ -257,7 +257,8 @@ app.get('/api/profile/saved/:userId', (req, res, next) => {
   const { userId } = req.params;
 
   const sql = `
-  select "posts"."userId",
+  select "saved"."postId",
+         "posts"."userId",
          "posts"."content"
   from "saved"
   join "posts" using ("postId")

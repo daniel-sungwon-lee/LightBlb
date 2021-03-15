@@ -404,7 +404,29 @@ function Saved(props) {
   return (
     <div className="my-5 mx-3">
       <Card classes={{root: classes.cardRoot}}>
+        <CardContent>
+          <List>
+            {
+              data.map(saved => {
+                const { postId, content, userId } = saved
 
+                return (
+                  <ListItem key={postId} alignItems="flex-start" className={classes.listItemCard}>
+
+                    <ListItemAvatar>
+                      <Avatar classes={{ colorDefault: classes.avatar }}>
+                        <FaceRounded />
+                      </Avatar>
+                    </ListItemAvatar>
+
+                    <ListItemText primary={content} secondary={`User ID: ${userId}`} />
+
+                  </ListItem>
+                )
+              })
+            }
+          </List>
+        </CardContent>
       </Card>
     </div>
   )
