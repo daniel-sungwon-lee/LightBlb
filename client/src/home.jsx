@@ -96,7 +96,7 @@ export default function Home(props) {
               <Card key={postId} className={classes.card}>
 
                 <ListItem>
-                  <CardContent>
+                  <CardContent style={{ width: "85%" }}>
 
                     <ListItemAvatar>
                       <Avatar classes={{colorDefault: classes.avatar}}>
@@ -104,7 +104,7 @@ export default function Home(props) {
                       </Avatar>
                     </ListItemAvatar>
 
-                    <ListItemText primary={content} secondary={`User ID: ${userId}`} />
+                    <ListItemText className="text-break" primary={content} secondary={`User ID: ${userId}`} />
 
                     <ListItemSecondaryAction>
 
