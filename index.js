@@ -252,6 +252,26 @@ app.get('/api/saved/:userId', (req, res, next) => {
     .catch(err => next(err));
 })
 
+//profile (saved)
+app.get('/api/profile/saved/:userId', (req, res, next) => {
+  const userId = req.params;
+
+  const sql = `
+  select "posts"."userId",
+  "posts"."content",
+  from "saved"
+  join "posts" using ("postId")
+  where "userId" = $1
+  `
+  const params = [userId]
+
+  db.query(sql, params)
+    .then(result => {
+      res.status(200).json(result.rows);
+    })
+    .catch(err => next(err));
+})
+
 //for Heroku deployment
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
