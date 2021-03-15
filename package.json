@@ -13,6 +13,7 @@
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
     "db:import": "bash scripts/db-import.bash",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
     "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "repository": {
