@@ -149,7 +149,7 @@ export default function Profile(props) {
           </TabPanel>
 
           <TabPanel value={value} index={2}>
-            <Saved />
+            <Saved userId={userId} />
           </TabPanel>
 
         </SwipeableViews>
@@ -377,6 +377,29 @@ function DeletePost(props) {
 //saved tab
 function Saved(props) {
   const classes = useStyles()
+  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    setLoading(true)
+
+    fetch(`/api/profile/saved/${props.userId}`)
+      .then(res => res.json())
+      .then(data => {
+        setData(data)
+        setLoading(false)
+      })
+  }, [props.userId])
+
+  if (loading) {
+    return (
+      <div className="my-5 mx-3 position-relative">
+        <Card classes={{ root: classes.cardRoot }}>
+          <Spinner />
+        </Card>
+      </div>
+    )
+  }
 
   return (
     <div className="my-5 mx-3">
