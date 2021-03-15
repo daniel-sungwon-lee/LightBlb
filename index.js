@@ -203,6 +203,55 @@ app.get('/api/posts', (req, res, next) => {
     .catch(err => next(err));
 })
 
+app.post('/api/saved', (req, res, next) => {
+  const { postId, userId } = req.body;
+
+  const sql = `
+  insert into "saved" ("postId", "userId")
+  values ($1, $2)
+  `;
+  const params = [postId, userId]
+
+  db.query(sql, params)
+    .then(result => {
+      res.status(201).json(result.rows[0])
+    })
+    .catch(err => next(err))
+})
+
+app.delete('/api/saved/:postId/:userId', (req, res, next) => {
+  const { postId, userId } = req.params
+
+  const sql = `
+  delete from "saved"
+  where "postId" = $1
+  and "userId" = $2
+  `
+  const params = [postId, userId]
+
+  db.query(sql, params)
+    .then(result => {
+      res.status(204).json(result.rows[0])
+    })
+    .catch(err => next(err));
+})
+
+app.get('/api/saved/:userId', (req, res, next) => {
+  const { userId } = req.params;
+
+  const sql = `
+  select * from "saved"
+  where "userId" = $1
+  `;
+  const params = [userId]
+
+  db.query(sql, params)
+    .then(result => {
+      res.status(200).json(result.rows);
+    })
+    .catch(err => next(err));
+})
+
 //for Heroku deployment
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files

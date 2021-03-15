@@ -17,6 +17,15 @@ CREATE TABLE "posts" (
   OIDS=FALSE
 );
 
+CREATE TABLE "saved" (
+  "postId" serial NOT NULL,
+  "userId" serial NOT NULL,
+  UNIQUE ("postId", "userId")
+) WITH (
+  OIDS=FALSE
+);
+
 
 
 ALTER TABLE "posts" ADD CONSTRAINT "posts_fk0" FOREIGN KEY ("userId") REFERENCES "users"("userId");
+ALTER TABLE "saved" ADD CONSTRAINT "saved_fk0" FOREIGN KEY ("postId") REFERENCES "posts"("postId");

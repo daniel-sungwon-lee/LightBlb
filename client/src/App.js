@@ -68,7 +68,7 @@ export default function App() {
           </Route>
 
           <Route exact path="/">
-            <Home />
+            <Home user={user} />
           </Route>
 
           <Route exact path="/profile">
