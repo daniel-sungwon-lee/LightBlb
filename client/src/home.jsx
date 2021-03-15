@@ -60,7 +60,7 @@ export default function Home(props) {
     const reqBody = { postId, userId }
 
     if(event.target.checked) {
-      setSaved([...saved, reqBody])
+      window.location.reload()
 
       fetch(`/api/saved`, {
         method: "POST",
@@ -70,6 +70,8 @@ export default function Home(props) {
         .catch(() => window.location.reload())
 
     } else {
+      window.location.reload()
+
       fetch(`/api/saved/${postId}/${userId}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" }
@@ -107,9 +109,9 @@ export default function Home(props) {
                     <ListItemSecondaryAction>
 
                       <Checkbox checkedIcon={<SaveRounded className={classes.saveIcon} />}
-                      icon={<SaveOutlined className={classes.saveIcon} />} color="default"
-                      id={postId.toString()} onChange={handleChange} classes={{
-                        checked: classes.checked, root: classes.unchecked
+                       icon={<SaveOutlined className={classes.saveIcon} />} color="default"
+                       id={postId.toString()} onChange={handleChange} classes={{
+                          checked: classes.checked, root: classes.unchecked
                         }} checked={saved.some(s => s.postId === postId)} />
 
                     </ListItemSecondaryAction>
