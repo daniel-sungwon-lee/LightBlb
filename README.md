@@ -17,19 +17,15 @@ https://lightblbb.herokuapp.com/
 
 ## Current Features
 * User can login/sign-up
-* User can see all posts
-* User can view profile
+* User can see all posts (on Home page)
 * User can create a new post
+* User can view profile
 * User can see their posts
-* User can edit their posts
-* User can delete their posts
+* User can edit their post
+* User can delete their post
 * User can save a post
 * User can see their saved posts
 * User can remove a saved post
-
-## Features to be Added
-* User can upload avatar
-* User can share a post
 
 ## Database Schema
 ![image](https://user-images.githubusercontent.com/72715781/111215227-248df500-8590-11eb-8880-b472cc7ff34e.png)
