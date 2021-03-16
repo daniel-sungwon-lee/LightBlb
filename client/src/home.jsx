@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, List, ListItem, ListItemAvatar, Checkbox,
-         Avatar, ListItemText, ListItemSecondaryAction } from '@material-ui/core';
+         Avatar, ListItemText, ListItemSecondaryAction, Slide } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { FaceRounded, SaveRounded, SaveOutlined } from '@material-ui/icons';
 import Spinner from './components/spinner';
@@ -86,40 +86,44 @@ export default function Home(props) {
 
   return (
     <div className="container">
-      <h1>Home</h1>
+      <Slide in>
+        <h1>Home</h1>
+      </Slide>
       <List>
         {
           data.map(post => {
             const { postId, userId, content } = post
 
             return (
-              <Card key={postId} className={classes.card}>
+              <Slide in timeout={500} key={postId}>
+                <Card key={postId} className={classes.card}>
 
-                <ListItem>
-                  <CardContent style={{ width: "85%" }}>
+                  <ListItem>
+                    <CardContent style={{ width: "85%" }}>
 
-                    <ListItemAvatar>
-                      <Avatar classes={{colorDefault: classes.avatar}}>
-                        <FaceRounded className={classes.avatarIcon} />
-                      </Avatar>
-                    </ListItemAvatar>
+                      <ListItemAvatar>
+                        <Avatar classes={{colorDefault: classes.avatar}}>
+                          <FaceRounded className={classes.avatarIcon} />
+                        </Avatar>
+                      </ListItemAvatar>
 
-                    <ListItemText className="text-break" primary={content} secondary={`User ID: ${userId}`} />
+                      <ListItemText className="text-break" primary={content} secondary={`User ID: ${userId}`} />
 
-                    <ListItemSecondaryAction>
+                      <ListItemSecondaryAction>
 
-                      <Checkbox checkedIcon={<SaveRounded className={classes.saveIcon} />}
-                       icon={<SaveOutlined className={classes.saveIcon} />} color="default"
-                       id={postId.toString()} onChange={handleChange} classes={{
-                          checked: classes.checked, root: classes.unchecked
-                        }} checked={saved.some(s => s.postId === postId)} />
+                        <Checkbox checkedIcon={<SaveRounded className={classes.saveIcon} />}
+                         icon={<SaveOutlined className={classes.saveIcon} />} color="default"
+                         id={postId.toString()} onChange={handleChange} classes={{
+                             checked: classes.checked, root: classes.unchecked
+                           }} checked={saved.some(s => s.postId === postId)} />
 
-                    </ListItemSecondaryAction>
+                      </ListItemSecondaryAction>
 
-                  </CardContent>
-                </ListItem>
+                    </CardContent>
+                  </ListItem>
 
-              </Card>
+                </Card>
+              </Slide>
             )
           })
         }

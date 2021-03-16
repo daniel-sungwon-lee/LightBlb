@@ -46,6 +46,11 @@ export default function Post(props) {
       .catch(() => window.location.reload())
   }
 
+  const handleCancel = () => {
+    setContent('')
+    props.setOpen(false)
+  }
+
   return (
     <Dialog open={props.open} onClose={() => props.setOpen(false)} TransitionComponent={Transition}
      classes={{paper: classes.paper}}>
@@ -59,7 +64,7 @@ export default function Post(props) {
              color="secondary" fullWidth spellCheck required InputLabelProps={{required: false}} value={content} onChange={handleChange} />
           </DialogContent>
           <DialogActions>
-            <IconButton onClick={() => props.setOpen(false)}>
+            <IconButton onClick={handleCancel}>
               <BlockRounded className={classes.iconSecondary} color="secondary" />
             </IconButton>
             <IconButton type="submit">
