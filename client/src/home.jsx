@@ -55,6 +55,8 @@ export default function Home(props) {
   }, [props.user])
 
   const handleChange = (event) => {
+    props.setProgress('')
+
     const postId = event.target.id
     const userId = props.user.userId
     const reqBody = { postId, userId }

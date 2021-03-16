@@ -17,6 +17,13 @@
   color: #FFD321;
 }
 
+.MuiLinearProgress-root.MuiLinearProgress-colorPrimary {
+  background-color: transparent;
+}
+.MuiLinearProgress-bar.MuiLinearProgress-barColorPrimary {
+  background-color: #00CBB1;
+}
+
 .container {
   padding-bottom: 4rem;
 }

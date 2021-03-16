@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AppBar, Button, Drawer, Icon, IconButton, List, ListItem, Toolbar,
-         Tooltip, Slide } from '@material-ui/core';
+         Tooltip, Slide, LinearProgress } from '@material-ui/core';
 import { ExitToAppRounded, HomeRounded, MenuRounded, PersonRounded,
          PostAddRounded, CloseRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
@@ -50,7 +50,7 @@ export default function Nav(props) {
               <IconButton onClick={toggle("left", true)} style={{marginRight: "13px"}}>
                 <MenuRounded className={classes.icon} />
               </IconButton>
-              <a href="/" className="text-decoration-none">
+              <a href="/" className="text-decoration-none" onClick={() => props.setProgress('')}>
                 <div className="d-flex align-items-center">
                   <h3 className="m-0 text-dark">LightBlb</h3>
                   <img src="images/lightblb.svg" alt="LightBlb logo" width="40" />
@@ -125,6 +125,7 @@ export default function Nav(props) {
 
           </Toolbar>
         </AppBar>
+        <LinearProgress className={props.progress} />
       </div>
     </Slide>
   )

@@ -11,6 +11,7 @@ import Profile from './profile';
 export default function App() {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [progress, setProgress] = useState("invisible")
 
   useEffect(() => {
     const token = window.localStorage.getItem("userToken")
@@ -60,7 +61,8 @@ export default function App() {
     <div className="App">
 
       <Router>
-        <Nav handleSignOut={handleSignOut} user={user} setLoading={setLoading} />
+        <Nav handleSignOut={handleSignOut} user={user} setLoading={setLoading}
+         progress={progress} setProgress={setProgress} />
         <Switch>
 
           <Route exact path="/auth">
@@ -68,7 +70,7 @@ export default function App() {
           </Route>
 
           <Route exact path="/">
-            <Home user={user} />
+            <Home user={user} setProgress={setProgress} />
           </Route>
 
           <Route exact path="/profile">
