@@ -4,7 +4,7 @@ A web app where people can share startup ideas
 Technologies used:
 * React, Material-UI, Bootstrap, and HTML/CSS for front-end
 * Express for building API
-* PosgreSQL and Node for backend (connecting to database)
+* PostgreSQL and Node for backend (connecting to database)
 * Heroku for deployment
 * JavaScript for logic of app
 * npm for dependencies/packages
