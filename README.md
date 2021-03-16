@@ -15,6 +15,9 @@ https://lightblbb.herokuapp.com/
 ## Demo GIF
 ![lightblb-demo](https://user-images.githubusercontent.com/72715781/111216066-2ad0a100-8591-11eb-9168-ee0957711969.gif)
 
+## Video Walkthrough
+https://youtu.be/Gv7qISqOR9Q
+
 ## Current Features
 * User can login/sign-up
 * User can see all posts (on Home page)
