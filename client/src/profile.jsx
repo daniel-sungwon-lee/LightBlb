@@ -422,11 +422,21 @@ function Saved(props) {
 
                     <ListItemText primary={content} secondary={`User ID: ${userId}`} />
 
-                    <IconButton onClick={() => setOpen(true)}>
-                      <DeleteRounded fontSize="large" color="secondary" />
-                    </IconButton>
-                    <DeleteSavedPost open={open} setOpen={setOpen} postId={postId} userId={props.userId}
-                     setLoading={props.setLoading} setValue={props.setValue} />
+                    <PopupState id="delete" variant="popover">
+                      {
+                        popupState2 => (
+                          <>
+                          <IconButton onClick={() => setOpen(true)} {...bindTrigger(popupState2)}>
+                            <DeleteRounded fontSize="large" color="secondary" />
+                          </IconButton>
+
+                          <DeleteSavedPost open={open} setOpen={setOpen} postId={postId} userId={props.userId}
+                           setLoading={props.setLoading} setValue={props.setValue} {...bindMenu(popupState2)}
+                           popupState2={popupState2} />
+                          </>
+                        )
+                      }
+                    </PopupState>
 
                   </ListItem>
                 )
@@ -445,6 +455,7 @@ function DeleteSavedPost(props) {
 
   const handleClose = () => {
     props.setOpen(false)
+    props.popupState2.close()
   }
 
   const handleDelete = () => {
@@ -463,7 +474,7 @@ function DeleteSavedPost(props) {
 
   return (
     <Dialog classes={{ paper: classes.deletePaper }} onClose={() => props.setOpen(false)}
-      open={props.open} TransitionComponent={Transition2}>
+      open={props.open} TransitionComponent={Transition2} onBackdropClick={props.popupState2.close}>
       <DialogTitle>
         <h2>Delete Saved Post?</h2>
       </DialogTitle>
