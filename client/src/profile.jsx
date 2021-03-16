@@ -166,6 +166,7 @@ function Posts(props) {
   const [data, setData] = useState([])
   const [openEdit, setOpenEdit] = useState(false);
   const [openDel, setOpenDel] = useState(false);
+  const [empty, setEmpty] = useState('spinner')
 
   useEffect(() => {
     setLoading(true)
@@ -173,6 +174,9 @@ function Posts(props) {
     fetch(`/api/posts/${props.userId}`)
       .then(res => res.json())
       .then(data => {
+        if (data.length > 0) {
+          setEmpty("d-none")
+        }
         setData(data)
         setLoading(false)
       })
@@ -190,7 +194,8 @@ function Posts(props) {
   }
 
   return (
-    <div className="my-5 mx-3">
+    <div className="my-5 mx-3 position-relative">
+      <h2 className={empty} style={{opacity: 0.3}}>No Posts...</h2>
       <Card classes={{root: classes.cardRoot}}>
         <CardContent>
           <List>
@@ -380,6 +385,7 @@ function Saved(props) {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
   const [open, setOpen] = useState(false)
+  const [empty, setEmpty] = useState("spinner")
 
   useEffect(() => {
     setLoading(true)
@@ -387,6 +393,9 @@ function Saved(props) {
     fetch(`/api/profile/saved/${props.userId}`)
       .then(res => res.json())
       .then(data => {
+        if (data.length > 0) {
+          setEmpty("d-none")
+        }
         setData(data)
         setLoading(false)
       })
@@ -403,7 +412,8 @@ function Saved(props) {
   }
 
   return (
-    <div className="my-5 mx-3">
+    <div className="my-5 mx-3 position-relative">
+      <h2 className={empty} style={{ opacity: 0.3 }}>None Saved...</h2>
       <Card classes={{root: classes.cardRoot}}>
         <CardContent>
           <List>
@@ -476,7 +486,7 @@ function DeleteSavedPost(props) {
     <Dialog classes={{ paper: classes.deletePaper }} onClose={() => props.setOpen(false)}
       open={props.open} TransitionComponent={Transition2} onBackdropClick={props.popupState2.close}>
       <DialogTitle>
-        <h2>Delete Saved Post?</h2>
+        <h2>Remove Saved Post?</h2>
       </DialogTitle>
       <DialogActions>
         <IconButton onClick={handleClose}>
