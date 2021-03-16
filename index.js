@@ -242,6 +242,7 @@ app.get('/api/saved/:userId', (req, res, next) => {
   const sql = `
   select * from "saved"
   where "userId" = $1
+  order  by "postId" desc
   `;
   const params = [userId]
 
@@ -263,6 +264,7 @@ app.get('/api/profile/saved/:userId', (req, res, next) => {
   from "saved"
   join "posts" using ("postId")
   where "saved"."userId" = $1
+  order  by "postId" desc
   `
   const params = [userId]
 
