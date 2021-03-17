@@ -189,6 +189,23 @@ app.delete('/api/posts/:userId/:postId', (req, res, next) => {
     .catch(err => next(err));
 })
 
+//to delete post even if it has been saved
+app.delete('/api/saved/:postId', (req, res, next) => {
+  const { postId } = req.params
+
+  const sql = `
+  delete from "saved"
+  where "postId" = $1
+  `
+  const params = [postId]
+
+  db.query(sql, params)
+    .then(result => {
+      res.status(204).json(result.rows[0])
+    })
+    .catch(err => next(err));
+})
+
 //home
 app.get('/api/posts', (req, res, next) => {
   const sql = `
