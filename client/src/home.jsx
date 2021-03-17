@@ -52,7 +52,7 @@ export default function Home(props) {
           .catch(() => window.location.reload())
       })
       .catch(() => window.location.reload())
-  }, [props.user])
+  }, [props.user, saved])
 
   const handleChange = (event) => {
     props.setProgress('')
@@ -62,22 +62,22 @@ export default function Home(props) {
     const reqBody = { postId, userId }
 
     if(event.target.checked) {
-      window.location.reload()
 
       fetch(`/api/saved`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(reqBody)
       })
+        .then(() => props.setProgress("invisible"))
         .catch(() => window.location.reload())
 
     } else {
-      window.location.reload()
 
       fetch(`/api/saved/${postId}/${userId}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" }
       })
+        .then(() => props.setProgress("invisible"))
         .catch(() => window.location.reload())
     }
   }
