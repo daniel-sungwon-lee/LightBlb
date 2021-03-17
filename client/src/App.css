@@ -46,3 +46,9 @@
 .MuiFilledInput-underline.Mui-focused:after {
   border-bottom: 2px solid #FFEC29 !important;
 }
+
+@media screen and (max-width: 450px) {
+  #content-label {
+    font-size: 12px;
+  }
+}
