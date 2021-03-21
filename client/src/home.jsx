@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, List, ListItem, ListItemAvatar, Checkbox,
-         Avatar, ListItemText, ListItemSecondaryAction, Slide } from '@material-ui/core';
+         Avatar, ListItemText, ListItemSecondaryAction, Slide, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { FaceRounded, SaveRounded, SaveOutlined } from '@material-ui/icons';
+import { FaceRounded, SaveRounded, SaveOutlined, InsertCommentRounded } from '@material-ui/icons';
 import Spinner from './components/spinner';
 
 const useStyles = makeStyles({
@@ -110,6 +110,10 @@ export default function Home(props) {
                       </ListItemAvatar>
 
                       <ListItemText className="text-break" primary={content} secondary={`User ID: ${userId}`} />
+
+                      <IconButton>
+                        <InsertCommentRounded className={classes.saveIcon} style={{color: "#694D33"}} />
+                      </IconButton>
 
                       <ListItemSecondaryAction>
 
