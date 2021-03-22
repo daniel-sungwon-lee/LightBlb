@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, List, ListItem, ListItemAvatar, Checkbox,
-         Avatar, ListItemText, ListItemSecondaryAction, Slide, IconButton } from '@material-ui/core';
+         Avatar, ListItemText, ListItemSecondaryAction, Slide, IconButton,
+         Collapse, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { FaceRounded, SaveRounded, SaveOutlined, InsertCommentRounded } from '@material-ui/icons';
 import Spinner from './components/spinner';
@@ -34,6 +35,7 @@ export default function Home(props) {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
   const [saved, setSaved] = useState([])
+  const [expand, setExpand] = useState(false)
 
   useEffect(() => {
     const { userId } = props.user
@@ -82,6 +84,10 @@ export default function Home(props) {
     }
   }
 
+  const handleExpand = (postId) => {
+    setExpand(!expand)
+  }
+
   if(loading) {
     return <Spinner />
   }
@@ -111,9 +117,17 @@ export default function Home(props) {
 
                       <ListItemText className="text-break" primary={content} secondary={`User ID: ${userId}`} />
 
-                      <IconButton>
+                      <IconButton onClick={handleExpand}>
                         <InsertCommentRounded className={classes.saveIcon} style={{color: "#694D33"}} />
                       </IconButton>
+
+                      <Collapse in={expand} timeout="auto" unmountOnExit>
+                        <CardContent>
+
+                          <TextField label="Add a comment" variant="filled" color="secondary" />
+
+                        </CardContent>
+                      </Collapse>
 
                       <ListItemSecondaryAction>
 
