@@ -128,11 +128,9 @@ export default function Home(props) {
                       </IconButton>
 
                       <Collapse in={expand.includes(postId)} timeout="auto">
-                        <CardContent>
 
-                          <TextField label="Add a comment" variant="filled" color="secondary" />
+                        <Comment />
 
-                        </CardContent>
                       </Collapse>
 
                       <ListItemSecondaryAction>
@@ -155,5 +153,16 @@ export default function Home(props) {
         }
       </List>
     </div>
+  )
+}
+
+//comment section
+function Comment(props) {
+  return (
+    <CardContent>
+
+      <TextField label="Add a comment" variant="filled" color="secondary" />
+
+    </CardContent>
   )
 }
