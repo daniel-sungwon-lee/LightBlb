@@ -35,7 +35,7 @@ export default function Home(props) {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
   const [saved, setSaved] = useState([])
-  const [expand, setExpand] = useState(false)
+  const [expand, setExpand] = useState([])
 
   useEffect(() => {
     const { userId } = props.user
@@ -84,8 +84,14 @@ export default function Home(props) {
     }
   }
 
-  const handleExpand = (postId) => {
-    setExpand(!expand)
+  const handleExpand = (postId) => () => {
+    if (expand.includes(postId)) {
+      const updatedExpand = expand.filter(id => id !== postId)
+      setExpand(updatedExpand)
+
+    } else {
+      setExpand([...expand, postId])
+    }
   }
 
   if(loading) {
@@ -117,11 +123,11 @@ export default function Home(props) {
 
                       <ListItemText className="text-break" primary={content} secondary={`User ID: ${userId}`} />
 
-                      <IconButton onClick={handleExpand}>
+                      <IconButton onClick={handleExpand(postId)}>
                         <InsertCommentRounded className={classes.saveIcon} style={{color: "#694D33"}} />
                       </IconButton>
 
-                      <Collapse in={expand} timeout="auto" unmountOnExit>
+                      <Collapse in={expand.includes(postId)} timeout="auto">
                         <CardContent>
 
                           <TextField label="Add a comment" variant="filled" color="secondary" />
