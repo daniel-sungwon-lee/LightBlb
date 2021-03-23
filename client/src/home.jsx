@@ -161,7 +161,21 @@ export default function Home(props) {
 function Comment(props) {
   const { postId, userId, setProgress } = props
   const classes = useStyles()
+  const [loading, setLoading] = useState(true)
+  const [comments, setComments] = useState([])
   const [comment, setComment] = useState('')
+
+  useEffect(() => {
+    setLoading(true)
+
+    fetch(`/api/comments/${postId}`)
+      .then(res => res.json())
+      .then(comments => {
+        setComments(comments)
+        setLoading(false)
+      })
+      .catch(() => window.location.reload())
+  }, [postId])
 
   const handleChange = (event) => {
     const { value } = event.target
@@ -179,12 +193,36 @@ function Comment(props) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(reqBody)
     })
-      .then(() => setProgress("invisible"))
+      .then(() => {
+        setComment('')
+        setProgress("invisible")
+      })
       .catch(() => window.location.reload())
+  }
+
+  if (loading) {
+    return (
+      <CardContent className="position-relative">
+        <Spinner />
+      </CardContent>
+    )
   }
 
   return (
     <CardContent>
+      <List>
+        {
+          comments.map(comm => {
+            const { comment, commentId, userId } = comm
+
+            return (
+              <ListItem key={commentId}>
+                <ListItemText primary={comment} secondary={`User ID: ${userId}`} />
+              </ListItem>
+            )
+          })
+        }
+      </List>
 
       <form onSubmit={handleSubmit}>
         <TextField label="Add a comment" variant="filled" color="secondary" required

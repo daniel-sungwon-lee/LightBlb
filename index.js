@@ -287,6 +287,23 @@ app.post('/api/comments', (req, res, next) => {
     .catch(err => next(err))
 })
 
+app.get('/api/comments/:postId', (req, res, next) => {
+  const { postId } = req.params;
+
+  const sql = `
+  select * from "comments"
+  where "postId" = $1
+  order  by "commentId" desc
+  `;
+  const params = [postId]
+
+  db.query(sql, params)
+    .then(result => {
+      res.status(200).json(result.rows);
+    })
+    .catch(err => next(err));
+})
+
 //profile (saved)
 app.get('/api/profile/saved/:userId', (req, res, next) => {
   const { userId } = req.params;
