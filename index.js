@@ -309,7 +309,7 @@ app.get('/api/comments/:postId', (req, res, next) => {
   const sql = `
   select * from "comments"
   where "postId" = $1
-  order  by "commentId" desc
+  order  by "commentId"
   `;
   const params = [postId]
 
