@@ -3,7 +3,8 @@ import { Card, CardContent, List, ListItem, ListItemAvatar, Checkbox,
          Avatar, ListItemText, ListItemSecondaryAction, Slide, IconButton,
          Collapse, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { FaceRounded, SaveRounded, SaveOutlined, InsertCommentRounded } from '@material-ui/icons';
+import { FaceRounded, SaveRounded, SaveOutlined, InsertCommentRounded,
+         AddCommentRounded } from '@material-ui/icons';
 import Spinner from './components/spinner';
 
 const useStyles = makeStyles({
@@ -158,10 +159,22 @@ export default function Home(props) {
 
 //comment section
 function Comment(props) {
+  const classes = useStyles()
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+  }
+
   return (
     <CardContent>
 
-      <TextField label="Add a comment" variant="filled" color="secondary" />
+      <form onSubmit={handleSubmit}>
+        <TextField label="Add a comment" variant="filled" color="secondary" />
+
+        <IconButton type="submit">
+          <AddCommentRounded fontSize="large" className={classes.checked} />
+        </IconButton>
+      </form>
 
     </CardContent>
   )
