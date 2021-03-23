@@ -223,7 +223,7 @@ function Comment(props) {
 
             return (
               <ListItem key={commentId}>
-                <ListItemText primary={comment} secondary={`User ID: ${userId}`} />
+                <ListItemText className="text-break" primary={comment} secondary={`User ID: ${userId}`} />
               </ListItem>
             )
           })
@@ -232,7 +232,7 @@ function Comment(props) {
 
       <form onSubmit={handleSubmit}>
         <TextField label="Add a comment..." variant="filled" color="secondary" required
-         InputLabelProps={{required: false}} onChange={handleChange} value={comment} />
+         InputLabelProps={{required: false}} onChange={handleChange} value={comment} multiline />
 
         <IconButton type="submit">
           <AddCommentRounded fontSize="large" className={classes.checked} />
