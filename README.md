@@ -31,6 +31,7 @@ https://youtu.be/Gv7qISqOR9Q
 * User can remove a saved post
 * User can comment on a post
 * User can see comments on a post
+* User can delete their comments
 
 ## Database Schema
 https://dbdesigner.page.link/yiw1849SwPDsRjse8
