@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, List, ListItem, ListItemAvatar, Checkbox,
-         Avatar, ListItemText, ListItemSecondaryAction, Slide } from '@material-ui/core';
+         Avatar, ListItemText, ListItemSecondaryAction, Slide, IconButton,
+         Collapse, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { FaceRounded, SaveRounded, SaveOutlined } from '@material-ui/icons';
+import { FaceRounded, SaveRounded, SaveOutlined, InsertCommentRounded,
+         AddCommentRounded, ExpandLessRounded } from '@material-ui/icons';
 import Spinner from './components/spinner';
 
 const useStyles = makeStyles({
@@ -34,6 +36,7 @@ export default function Home(props) {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
   const [saved, setSaved] = useState([])
+  const [expand, setExpand] = useState([])
 
   useEffect(() => {
     const { userId } = props.user
@@ -82,6 +85,16 @@ export default function Home(props) {
     }
   }
 
+  const handleExpand = (postId) => () => {
+    if (expand.includes(postId)) {
+      const updatedExpand = expand.filter(id => id !== postId)
+      setExpand(updatedExpand)
+
+    } else {
+      setExpand([...expand, postId])
+    }
+  }
+
   if(loading) {
     return <Spinner />
   }
@@ -111,6 +124,15 @@ export default function Home(props) {
 
                       <ListItemText className="text-break" primary={content} secondary={`User ID: ${userId}`} />
 
+                      <Checkbox onChange={handleExpand(postId)} checkedIcon={<ExpandLessRounded className={classes.saveIcon} color="secondary" />}
+                       color="default" icon={<InsertCommentRounded className={classes.saveIcon} style={{color: "#694D33"}} />} />
+
+                      <Collapse in={expand.includes(postId)} timeout="auto">
+
+                        <Comment postId={postId} userId={props.user.userId} setProgress={props.setProgress} />
+
+                      </Collapse>
+
                       <ListItemSecondaryAction>
 
                         <Checkbox checkedIcon={<SaveRounded className={classes.saveIcon} />}
@@ -131,5 +153,92 @@ export default function Home(props) {
         }
       </List>
     </div>
+  )
+}
+
+//comment section
+function Comment(props) {
+  const { postId, userId, setProgress } = props
+  const classes = useStyles()
+  const [loading, setLoading] = useState(true)
+  const [comments, setComments] = useState([])
+  const [comment, setComment] = useState('')
+
+  useEffect(() => {
+    setLoading(true)
+
+    fetch(`/api/comments/${postId}`)
+      .then(res => res.json())
+      .then(comments => {
+        setComments(comments)
+        setLoading(false)
+      })
+      .catch(() => window.location.reload())
+  }, [postId])
+
+  const handleChange = (event) => {
+    const { value } = event.target
+    setComment(value)
+  }
+
+  const handleSubmit = (event) => {
+    setProgress('')
+    event.preventDefault()
+
+    const reqBody = { postId, userId, comment }
+
+    fetch("/api/comments", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(reqBody)
+    })
+      .then(() => {
+        setComment('')
+
+        fetch(`/api/comments/${postId}`)
+          .then(res => res.json())
+          .then(comments => {
+            setComments(comments)
+            setProgress("invisible")
+          })
+          .catch(() => window.location.reload())
+      })
+      .catch(() => window.location.reload())
+  }
+
+  if (loading) {
+    return (
+      <CardContent className="position-relative">
+        <Spinner />
+      </CardContent>
+    )
+  }
+
+  return (
+    <CardContent>
+      <List>
+        {
+          comments.map(comm => {
+            const { comment, commentId, userId } = comm
+
+            return (
+              <ListItem key={commentId}>
+                <ListItemText primary={comment} secondary={`User ID: ${userId}`} />
+              </ListItem>
+            )
+          })
+        }
+      </List>
+
+      <form onSubmit={handleSubmit}>
+        <TextField label="Add a comment..." variant="filled" color="secondary" required
+         InputLabelProps={{required: false}} onChange={handleChange} value={comment} />
+
+        <IconButton type="submit">
+          <AddCommentRounded fontSize="large" className={classes.checked} />
+        </IconButton>
+      </form>
+
+    </CardContent>
   )
 }
