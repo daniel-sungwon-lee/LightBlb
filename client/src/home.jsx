@@ -160,6 +160,12 @@ export default function Home(props) {
 //comment section
 function Comment(props) {
   const classes = useStyles()
+  const [comment, setComment] = useState('')
+
+  const handleChange = (event) => {
+    const { value } = event.target
+    setComment(value)
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -169,7 +175,8 @@ function Comment(props) {
     <CardContent>
 
       <form onSubmit={handleSubmit}>
-        <TextField label="Add a comment" variant="filled" color="secondary" />
+        <TextField label="Add a comment" variant="filled" color="secondary" required
+         InputLabelProps={{required: false}} onChange={handleChange} value={comment} />
 
         <IconButton type="submit">
           <AddCommentRounded fontSize="large" className={classes.checked} />
