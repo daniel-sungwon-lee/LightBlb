@@ -232,7 +232,7 @@ function Comment(props) {
       </List>
 
       <form onSubmit={handleSubmit}>
-        <TextField label="Add a comment" variant="filled" color="secondary" required
+        <TextField label="Add a comment..." variant="filled" color="secondary" required
          InputLabelProps={{required: false}} onChange={handleChange} value={comment} />
 
         <IconButton type="submit">
