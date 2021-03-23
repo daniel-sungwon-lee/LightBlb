@@ -4,7 +4,7 @@ import { Card, CardContent, List, ListItem, ListItemAvatar, Checkbox,
          Collapse, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { FaceRounded, SaveRounded, SaveOutlined, InsertCommentRounded,
-         AddCommentRounded } from '@material-ui/icons';
+         AddCommentRounded, ExpandLessRounded } from '@material-ui/icons';
 import Spinner from './components/spinner';
 
 const useStyles = makeStyles({
@@ -124,9 +124,8 @@ export default function Home(props) {
 
                       <ListItemText className="text-break" primary={content} secondary={`User ID: ${userId}`} />
 
-                      <IconButton onClick={handleExpand(postId)}>
-                        <InsertCommentRounded className={classes.saveIcon} style={{color: "#694D33"}} />
-                      </IconButton>
+                      <Checkbox onChange={handleExpand(postId)} checkedIcon={<ExpandLessRounded className={classes.saveIcon} color="secondary" />}
+                       color="default" icon={<InsertCommentRounded className={classes.saveIcon} style={{color: "#694D33"}} />} />
 
                       <Collapse in={expand.includes(postId)} timeout="auto">
 
