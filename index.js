@@ -270,6 +270,23 @@ app.get('/api/saved/:userId', (req, res, next) => {
     .catch(err => next(err));
 })
 
+//comment
+app.post('/api/comments', (req, res, next) => {
+  const { postId, userId, comment } = req.body;
+
+  const sql = `
+  insert into "comments" ("postId", "userId", "comment")
+  values ($1, $2, $3)
+  `;
+  const params = [postId, userId, comment]
+
+  db.query(sql, params)
+    .then(result => {
+      res.status(201).json(result.rows[0])
+    })
+    .catch(err => next(err))
+})
+
 //profile (saved)
 app.get('/api/profile/saved/:userId', (req, res, next) => {
   const { userId } = req.params;

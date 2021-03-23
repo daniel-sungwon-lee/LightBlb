@@ -130,7 +130,7 @@ export default function Home(props) {
 
                       <Collapse in={expand.includes(postId)} timeout="auto">
 
-                        <Comment />
+                        <Comment postId={postId} userId={props.user.userId} setProgress={props.setProgress} />
 
                       </Collapse>
 
@@ -159,6 +159,7 @@ export default function Home(props) {
 
 //comment section
 function Comment(props) {
+  const { postId, userId, setProgress } = props
   const classes = useStyles()
   const [comment, setComment] = useState('')
 
@@ -168,7 +169,18 @@ function Comment(props) {
   }
 
   const handleSubmit = (event) => {
+    setProgress('')
     event.preventDefault()
+
+    const reqBody = { postId, userId, comment }
+
+    fetch("/api/comments", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(reqBody)
+    })
+      .then(() => setProgress("invisible"))
+      .catch(() => window.location.reload())
   }
 
   return (
