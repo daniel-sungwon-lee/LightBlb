@@ -252,24 +252,28 @@ function Comment(props) {
 
                 <ListItemText className="text-break mr-3" primary={comment} secondary={`User ID: ${userId}`} />
 
-                <ListItemSecondaryAction>
+                {
+                  props.userId === userId
+                    ? <ListItemSecondaryAction>
 
-                  <PopupState id="comment-delete" variant="popover">
-                    {
-                      popupState => (
-                        <>
-                          <IconButton onClick={() => setOpen(true)} {...bindTrigger(popupState)}>
-                            <DeleteRounded color="secondary" />
-                          </IconButton>
+                        <PopupState id="comment-delete" variant="popover">
+                          {
+                            popupState => (
+                              <>
+                                <IconButton onClick={() => setOpen(true)} {...bindTrigger(popupState)}>
+                                  <DeleteRounded color="secondary" />
+                                </IconButton>
 
-                          <DeleteComment commentId={commentId} handleDelete={handleDelete} open={open}
-                           setOpen={setOpen} {...bindMenu(popupState)} popupState={popupState} />
-                        </>
-                      )
-                    }
-                  </PopupState>
+                                <DeleteComment commentId={commentId} handleDelete={handleDelete} open={open}
+                                setOpen={setOpen} {...bindMenu(popupState)} popupState={popupState} />
+                              </>
+                            )
+                          }
+                        </PopupState>
 
-                </ListItemSecondaryAction>
+                      </ListItemSecondaryAction>
+                    : <></>
+                }
 
               </ListItem>
             )
