@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, List, ListItem, ListItemAvatar, Checkbox,
          Avatar, ListItemText, ListItemSecondaryAction, Slide, IconButton,
-         Collapse, TextField } from '@material-ui/core';
+         Collapse, TextField, Dialog, DialogTitle, DialogActions } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { FaceRounded, SaveRounded, SaveOutlined, InsertCommentRounded,
-         AddCommentRounded, ExpandLessRounded, DeleteRounded } from '@material-ui/icons';
+import { FaceRounded, SaveRounded, SaveOutlined, InsertCommentRounded, ArrowBackRounded,
+         AddCommentRounded, ExpandLessRounded, DeleteRounded, DeleteForeverRounded } from '@material-ui/icons';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import Spinner from './components/spinner';
 
 const useStyles = makeStyles({
@@ -28,6 +29,10 @@ const useStyles = makeStyles({
   },
   checked: {
     color: "#8EE26B"
+  },
+  deletePaper: {
+    padding: "2rem",
+    width: "75%"
   }
 })
 
@@ -163,6 +168,7 @@ function Comment(props) {
   const [loading, setLoading] = useState(true)
   const [comments, setComments] = useState([])
   const [comment, setComment] = useState('')
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     setLoading(true)
@@ -248,9 +254,20 @@ function Comment(props) {
 
                 <ListItemSecondaryAction>
 
-                  <IconButton onClick={handleDelete(commentId)}>
-                    <DeleteRounded color="secondary" />
-                  </IconButton>
+                  <PopupState id="comment-delete" variant="popover">
+                    {
+                      popupState => (
+                        <>
+                          <IconButton onClick={() => setOpen(true)} {...bindTrigger(popupState)}>
+                            <DeleteRounded color="secondary" />
+                          </IconButton>
+
+                          <DeleteComment commentId={commentId} handleDelete={handleDelete} open={open}
+                           setOpen={setOpen} {...bindMenu(popupState)} popupState={popupState} />
+                        </>
+                      )
+                    }
+                  </PopupState>
 
                 </ListItemSecondaryAction>
 
@@ -270,5 +287,37 @@ function Comment(props) {
       </form>
 
     </CardContent>
+  )
+}
+
+//delete comment modal
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />
+})
+
+function DeleteComment(props) {
+  const { commentId, handleDelete, open, setOpen, popupState } = props
+  const classes = useStyles()
+
+  const handleClose = () => {
+    setOpen(false)
+    popupState.close()
+  }
+
+  return (
+    <Dialog classes={{ paper: classes.deletePaper }} onClose={() => setOpen(false)}
+     open={open} TransitionComponent={Transition} onBackdropClick={popupState.close}>
+      <DialogTitle>
+        <h2>Delete Comment?</h2>
+      </DialogTitle>
+      <DialogActions>
+        <IconButton onClick={handleClose}>
+          <ArrowBackRounded style={{ color: "#8EE26B" }} className={classes.avatarIcon} />
+        </IconButton>
+        <IconButton onClick={handleDelete(commentId)}>
+          <DeleteForeverRounded color="secondary" className={classes.avatarIcon} />
+        </IconButton>
+      </DialogActions>
+    </Dialog>
   )
 }
