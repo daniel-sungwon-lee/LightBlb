@@ -4,7 +4,7 @@ import { Card, CardContent, List, ListItem, ListItemAvatar, Checkbox,
          Collapse, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { FaceRounded, SaveRounded, SaveOutlined, InsertCommentRounded,
-         AddCommentRounded, ExpandLessRounded } from '@material-ui/icons';
+         AddCommentRounded, ExpandLessRounded, DeleteRounded } from '@material-ui/icons';
 import Spinner from './components/spinner';
 
 const useStyles = makeStyles({
@@ -206,6 +206,17 @@ function Comment(props) {
       .catch(() => window.location.reload())
   }
 
+  const handleDelete = (commentId) => () => {
+    setProgress('')
+
+    fetch(`/api/comments/${commentId}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(() => setProgress("invisible"))
+      .catch(() => window.location.reload())
+  }
+
   if (loading) {
     return (
       <CardContent className="position-relative">
@@ -223,7 +234,17 @@ function Comment(props) {
 
             return (
               <ListItem key={commentId}>
-                <ListItemText className="text-break" primary={comment} secondary={`User ID: ${userId}`} />
+
+                <ListItemText className="text-break mr-3" primary={comment} secondary={`User ID: ${userId}`} />
+
+                <ListItemSecondaryAction>
+
+                  <IconButton onClick={handleDelete(commentId)}>
+                    <DeleteRounded color="secondary" />
+                  </IconButton>
+
+                </ListItemSecondaryAction>
+
               </ListItem>
             )
           })

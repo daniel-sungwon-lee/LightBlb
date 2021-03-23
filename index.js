@@ -320,6 +320,22 @@ app.get('/api/comments/:postId', (req, res, next) => {
     .catch(err => next(err));
 })
 
+app.delete('/api/comments/:commentId', (req, res, next) => {
+  const { commentId } = req.params
+
+  const sql = `
+  delete from "comments"
+  where "commentId" = $1
+  `
+  const params = [commentId]
+
+  db.query(sql, params)
+    .then(result => {
+      res.status(204).json(result.rows[0])
+    })
+    .catch(err => next(err));
+})
+
 //profile (saved)
 app.get('/api/profile/saved/:userId', (req, res, next) => {
   const { userId } = req.params;
