@@ -31,4 +31,4 @@ https://youtu.be/Gv7qISqOR9Q
 * User can remove a saved post
 
 ## Database Schema
-![image](https://user-images.githubusercontent.com/72715781/111215227-248df500-8590-11eb-8880-b472cc7ff34e.png)
+https://dbdesigner.page.link/yiw1849SwPDsRjse8
