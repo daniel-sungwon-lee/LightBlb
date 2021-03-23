@@ -74,7 +74,7 @@ export default function App() {
           </Route>
 
           <Route exact path="/profile">
-            <Profile user={user} />
+            <Profile user={user} setProgress={setProgress} />
           </Route>
 
         </Switch>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardMedia, List, ListItem, Paper, Tabs, Tab, Avatar,
          ListItemIcon, ListItemText, ListItemAvatar, Slide, IconButton, Menu,
          MenuItem, Dialog, DialogTitle, DialogContent, DialogActions,
-         TextField, Collapse } from '@material-ui/core';
+         TextField, Collapse, ListItemSecondaryAction } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 import { DeleteRounded, EditRounded, EmailRounded, FaceRounded, MoreVertRounded, ArrowBackRounded,
          PersonRounded, DoneRounded, BlockRounded, DeleteForeverRounded, CommentRounded } from '@material-ui/icons';
@@ -145,7 +145,8 @@ export default function Profile(props) {
           </TabPanel>
 
           <TabPanel value={value} index={1}>
-            <Posts userId={userId} setLoading={setLoading} setValue={setValue} />
+            <Posts userId={userId} setLoading={setLoading} setValue={setValue}
+             setProgress={props.setProgress} />
           </TabPanel>
 
           <TabPanel value={value} index={2}>
@@ -276,7 +277,7 @@ function Posts(props) {
                     </div>
 
                     <Collapse in={expand.includes(postId)} timeout="auto" className="w-100">
-                      <Comment postId={postId} />
+                      <Comment postId={postId} setProgress={props.setProgress} userId={props.userId} />
                     </Collapse>
 
                   </ListItem>
@@ -548,10 +549,11 @@ function DeleteSavedPost(props) {
 
 //comment section
 function Comment(props) {
-  const { postId } = props
+  const { postId, setProgress } = props
   const [loading, setLoading] = useState(true)
   const [comments, setComments] = useState([])
   const [empty, setEmpty] = useState('spinner')
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     setLoading(true)
@@ -567,6 +569,26 @@ function Comment(props) {
       })
       .catch(() => window.location.reload())
   },[postId])
+
+  const handleDelete = (commentId) => () => {
+    setProgress('')
+
+    fetch(`/api/comment/${commentId}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(() => {
+
+        fetch(`/api/comments/${postId}`)
+          .then(res => res.json())
+          .then(comments => {
+            setComments(comments)
+            setProgress("invisible")
+          })
+          .catch(() => window.location.reload())
+      })
+      .catch(() => window.location.reload())
+  }
 
   if(loading) {
     return (
@@ -585,11 +607,64 @@ function Comment(props) {
 
           return (
             <ListItem key={commentId}>
+
               <ListItemText primary={comment} secondary={`User ID: ${userId}`} />
+
+              {
+                props.userId === userId
+                  ? <ListItemSecondaryAction>
+
+                      <PopupState id="comment-delete" variant="popover">
+                        {
+                          popupState3 => (
+                            <>
+                              <IconButton onClick={() => setOpen(true)} {...bindTrigger(popupState3)}>
+                                <DeleteRounded color="secondary" />
+                              </IconButton>
+
+                              <DeleteComment commentId={commentId} handleDelete={handleDelete} open={open}
+                                setOpen={setOpen} {...bindMenu(popupState3)} popupState={popupState3} />
+                            </>
+                          )
+                        }
+                      </PopupState>
+
+                    </ListItemSecondaryAction>
+                  : <></>
+              }
+
             </ListItem>
           )
         })
       }
     </List>
+  )
+}
+
+//delete comment modal
+function DeleteComment(props) {
+  const { commentId, handleDelete, open, setOpen, popupState } = props
+  const classes = useStyles()
+
+  const handleClose = () => {
+    setOpen(false)
+    popupState.close()
+  }
+
+  return (
+    <Dialog classes={{ paper: classes.deletePaper }} onClose={() => setOpen(false)}
+      open={open} TransitionComponent={Transition2} onBackdropClick={popupState.close}>
+      <DialogTitle>
+        <h2>Delete Comment?</h2>
+      </DialogTitle>
+      <DialogActions>
+        <IconButton onClick={handleClose}>
+          <ArrowBackRounded style={{ color: "#8EE26B" }} className={classes.modalIcon} />
+        </IconButton>
+        <IconButton onClick={handleDelete(commentId)}>
+          <DeleteForeverRounded color="secondary" className={classes.modalIcon} />
+        </IconButton>
+      </DialogActions>
+    </Dialog>
   )
 }
