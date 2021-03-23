@@ -195,7 +195,14 @@ function Comment(props) {
     })
       .then(() => {
         setComment('')
-        setProgress("invisible")
+
+        fetch(`/api/comments/${postId}`)
+          .then(res => res.json())
+          .then(comments => {
+            setComments(comments)
+            setProgress("invisible")
+          })
+          .catch(() => window.location.reload())
       })
       .catch(() => window.location.reload())
   }
