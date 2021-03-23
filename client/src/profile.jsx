@@ -275,9 +275,8 @@ function Posts(props) {
                       </PopupState>
                     </div>
 
-
                     <Collapse in={expand.includes(postId)} timeout="auto" className="w-100">
-
+                      <Comment postId={postId} />
                     </Collapse>
 
                   </ListItem>
@@ -544,5 +543,53 @@ function DeleteSavedPost(props) {
         </IconButton>
       </DialogActions>
     </Dialog>
+  )
+}
+
+//comment section
+function Comment(props) {
+  const { postId } = props
+  const [loading, setLoading] = useState(true)
+  const [comments, setComments] = useState([])
+  const [empty, setEmpty] = useState('spinner')
+
+  useEffect(() => {
+    setLoading(true)
+
+    fetch(`/api/comments/${postId}`)
+      .then(res => res.json())
+      .then(comments => {
+        if(comments.length > 0) {
+          setEmpty("d-none")
+        }
+        setComments(comments)
+        setLoading(false)
+      })
+      .catch(() => window.location.reload())
+  },[postId])
+
+  if(loading) {
+    return (
+      <div className="position-relative" style={{minHeight: "160px"}}>
+        <Spinner />
+      </div>
+    )
+  }
+
+  return (
+    <List className="position-relative">
+      <h6 className={empty} style={{opacity: 0.3}}>No Comments...</h6>
+      {
+        comments.map(comm => {
+          const { comment, commentId, userId } = comm
+
+          return (
+            <ListItem key={commentId}>
+              <ListItemText primary={comment} secondary={`User ID: ${userId}`} />
+            </ListItem>
+          )
+        })
+      }
+    </List>
   )
 }
