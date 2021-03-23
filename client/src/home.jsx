@@ -209,11 +209,20 @@ function Comment(props) {
   const handleDelete = (commentId) => () => {
     setProgress('')
 
-    fetch(`/api/comments/${commentId}`, {
+    fetch(`/api/comment/${commentId}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" }
     })
-      .then(() => setProgress("invisible"))
+      .then(() => {
+
+        fetch(`/api/comments/${postId}`)
+          .then(res => res.json())
+          .then(comments => {
+            setComments(comments)
+            setProgress("invisible")
+          })
+          .catch(() => window.location.reload())
+      })
       .catch(() => window.location.reload())
   }
 

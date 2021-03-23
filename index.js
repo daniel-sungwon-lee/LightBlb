@@ -320,7 +320,7 @@ app.get('/api/comments/:postId', (req, res, next) => {
     .catch(err => next(err));
 })
 
-app.delete('/api/comments/:commentId', (req, res, next) => {
+app.delete('/api/comment/:commentId', (req, res, next) => {
   const { commentId } = req.params
 
   const sql = `
