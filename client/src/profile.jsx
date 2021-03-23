@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardMedia, List, ListItem, Paper, Tabs, Tab, Avatar,
          ListItemIcon, ListItemText, ListItemAvatar, Slide, IconButton, Menu,
          MenuItem, Dialog, DialogTitle, DialogContent, DialogActions,
-         TextField } from '@material-ui/core';
+         TextField, Collapse } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 import { DeleteRounded, EditRounded, EmailRounded, FaceRounded, MoreVertRounded, ArrowBackRounded,
-         PersonRounded, DoneRounded, BlockRounded, DeleteForeverRounded } from '@material-ui/icons';
+         PersonRounded, DoneRounded, BlockRounded, DeleteForeverRounded, CommentRounded } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import Spinner from './components/spinner';
@@ -167,6 +167,7 @@ function Posts(props) {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDel, setOpenDel] = useState(false);
   const [empty, setEmpty] = useState('spinner')
+  const [expand, setExpand] = useState([])
 
   useEffect(() => {
     setLoading(true)
@@ -182,6 +183,21 @@ function Posts(props) {
       })
       .catch(() => window.location.reload())
   }, [props.userId])
+
+  const handleComment = (popupState, postId) => () => {
+    handleExpand(postId)
+    popupState.close()
+  }
+
+  const handleExpand = (postId) => {
+    if (expand.includes(postId)) {
+      const updatedExpand = expand.filter(id => id !== postId)
+      setExpand(updatedExpand)
+
+    } else {
+      setExpand([...expand, postId])
+    }
+  }
 
   if(loading) {
     return (
@@ -204,52 +220,66 @@ function Posts(props) {
                 const { content, postId, userId } = post
 
                 return (
-                  <ListItem key={postId} alignItems="flex-start" className={classes.listItemCard}>
+                  <ListItem key={postId} alignItems="flex-start" className={classes.listItemCard}
+                   style={{flexDirection: "column"}}>
 
-                    <ListItemAvatar>
-                      <Avatar classes={{colorDefault: classes.avatar}}>
-                        <FaceRounded />
-                      </Avatar>
-                    </ListItemAvatar>
+                    <div className="w-100 d-flex justify-content-between align-items-start">
+                      <ListItemAvatar>
+                        <Avatar classes={{colorDefault: classes.avatar}}>
+                          <FaceRounded />
+                        </Avatar>
+                      </ListItemAvatar>
 
-                    <ListItemText primary={content} secondary={`Post ID: ${postId}`} />
+                      <ListItemText primary={content} secondary={`Post ID: ${postId}`} />
 
-                    <PopupState id="menu" variant="popover">
-                      {
-                        popupState => (
-                          <>
-                          <IconButton {...bindTrigger(popupState)}>
-                            <MoreVertRounded fontSize="large" />
-                          </IconButton>
+                      <PopupState id="menu" variant="popover">
+                        {
+                          popupState => (
+                            <>
+                            <IconButton {...bindTrigger(popupState)}>
+                              <MoreVertRounded fontSize="large" />
+                            </IconButton>
 
-                          <Menu classes={{paper: classes.menu}} {...bindMenu(popupState)}
-                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                            getContentAnchorEl={null}
-                            >
+                            <Menu classes={{paper: classes.menu}} {...bindMenu(popupState)}
+                              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                              getContentAnchorEl={null}
+                              >
 
-                            <MenuItem onClick={() => setOpenEdit(true)}>
-                              <div className="p-2">
-                                <EditRounded fontSize="large" />
-                              </div>
-                            </MenuItem>
-                            <EditPost setLoading={props.setLoading} open={openEdit} setOpen={setOpenEdit}
-                             userId={userId} postId={postId} popupState={popupState} setValue={props.setValue} />
+                              <MenuItem onClick={() => setOpenEdit(true)}>
+                                <div className="p-2">
+                                  <EditRounded fontSize="large" />
+                                </div>
+                              </MenuItem>
+                              <EditPost setLoading={props.setLoading} open={openEdit} setOpen={setOpenEdit}
+                              userId={userId} postId={postId} popupState={popupState} setValue={props.setValue} />
 
-                            <MenuItem onClick={() => setOpenDel(true)}>
-                              <div className="p-2">
-                                <DeleteRounded color="secondary" fontSize="large" />
-                              </div>
-                            </MenuItem>
-                            <DeletePost open={openDel} setOpen={setOpenDel} userId={userId} postId={postId}
-                             setLoading={props.setLoading} popupState={popupState} setValue={props.setValue} />
+                              <MenuItem onClick={() => setOpenDel(true)}>
+                                <div className="p-2">
+                                  <DeleteRounded color="secondary" fontSize="large" />
+                                </div>
+                              </MenuItem>
+                              <DeletePost open={openDel} setOpen={setOpenDel} userId={userId} postId={postId}
+                              setLoading={props.setLoading} popupState={popupState} setValue={props.setValue} />
 
-                          </Menu>
-                          </>
-                        )
-                      }
+                              <MenuItem onClick={handleComment(popupState, postId)}>
+                                <div className="p-2">
+                                  <CommentRounded fontSize="large" />
+                                </div>
+                              </MenuItem>
 
-                    </PopupState>
+                            </Menu>
+                            </>
+                          )
+                        }
+                      </PopupState>
+                    </div>
+
+
+                    <Collapse in={expand.includes(postId)} timeout="auto" className="w-100">
+
+                    </Collapse>
+
                   </ListItem>
                 )
               })
