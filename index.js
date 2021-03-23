@@ -206,6 +206,22 @@ app.delete('/api/saved/:postId', (req, res, next) => {
     .catch(err => next(err));
 })
 
+app.delete('/api/comments/:postId', (req, res, next) => {
+  const { postId } = req.params
+
+  const sql = `
+  delete from "comments"
+  where "postId" = $1
+  `
+  const params = [postId]
+
+  db.query(sql, params)
+    .then(result => {
+      res.status(204).json(result.rows[0])
+    })
+    .catch(err => next(err));
+})
+
 //home
 app.get('/api/posts', (req, res, next) => {
   const sql = `

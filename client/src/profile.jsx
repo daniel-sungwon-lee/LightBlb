@@ -355,13 +355,23 @@ function DeletePost(props) {
       headers: { "Content-Type": "application/json" }
     })
       .then(() => {
-        fetch(`/api/posts/${props.userId}/${props.postId}`, {
+
+        fetch(`/api/comments/${props.postId}`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" }
         })
           .then(() => {
-            props.setValue(1)
-            props.setLoading(false)
+
+            fetch(`/api/posts/${props.userId}/${props.postId}`, {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" }
+            })
+              .then(() => {
+
+                props.setValue(1)
+                props.setLoading(false)
+              })
+              .catch(() => window.location.reload())
           })
           .catch(() => window.location.reload())
       })
