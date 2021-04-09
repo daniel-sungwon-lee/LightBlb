@@ -42,7 +42,14 @@ export default function Post(props) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(reqBody)
     })
-      .then(() => props.setLoading(false))
+      .then(() => {
+        // eslint-disable-next-line no-cond-assign
+        if (window.location.pathname = "/profile") {
+          window.location.pathname = "/"
+        } else {
+          props.setLoading(false)
+        }
+      })
       .catch(() => window.location.reload())
   }
 
